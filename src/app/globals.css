@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+/* Design tokens from the Figma "Shipping" file (variables collection). */
+@theme {
+  --font-sans: "General Sans", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg-base: #f9f9fb;
+  --color-bg-sunken: #ecedf3;
+  --color-bg-raised: #ffffff;
+
+  --color-text-strong: #1f2247;
+  --color-text-weak: #565a86;
+  --color-text-weaker: #696d9b;
+  --color-text-brand: #4754eb;
+  --color-text-error: #c01c1c;
+  --color-text-inverse: #ffffff;
+  --color-text-inverse-weak: rgba(255, 255, 255, 0.7);
+
+  --color-brand: #4754eb;
+  --color-illo-brandmid: #6773ee;
+  --color-illo-brandweak: #d9e1f7;
+
+  --color-stroke-weak: rgba(13, 17, 64, 0.1);
+  --color-stroke-weaker: rgba(12, 15, 65, 0.05);
+  --color-stroke-error: #d93636;
+
+  --color-fill-weaker: rgba(12, 15, 65, 0.05);
+  --color-fill-disabled: rgba(15, 18, 62, 0.15);
+  --color-fill-error-weak: #fbeeee;
+  --color-fill-success-weak: #e9f3e2;
+  --color-fill-overlay: rgba(21, 23, 56, 0.5);
+
+  --color-icon-disabled: #d0d3e1;
+}
+
+/* Type styles: Heading 3/4, Small, Tiny, UPPERCASE. */
+@utility t-h3 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+}
+@utility t-h4 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+}
+@utility t-small {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+@utility t-small-bold {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+@utility t-tiny {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+@utility t-tiny-bold {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+@utility t-upper {
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+@utility shadow-overlay {
+  box-shadow:
+    0 20px 24px -4px rgba(13, 17, 64, 0.1),
+    0 8px 8px -4px rgba(12, 15, 65, 0.05);
+}
+
+html {
+  background: var(--color-bg-sunken);
+}
+
+body {
+  background: var(--color-bg-sunken);
+  color: var(--color-text-strong);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes loading-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.92);
+    opacity: 0.75;
+  }
+}
+
+.animate-loading {
+  animation: loading-pulse 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-loading {
+    animation: none;
+  }
+}
