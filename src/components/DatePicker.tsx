@@ -47,13 +47,19 @@ function MiniSelect({
   options: { value: number; label: string; disabled?: boolean }[];
   onChange: (v: number) => void;
 }) {
+  const current = options.find((o) => o.value === value)?.label ?? "";
   return (
+    // Hugs the current value like Figma datePickerSelect: an invisible copy of the label sets the width and the
+    // select is stretched over it, since a native select is otherwise as wide as its longest option ("September").
     <label className="relative flex items-center">
       <span className="sr-only">{label}</span>
+      <span aria-hidden className="type-small-bold invisible py-8 pr-32 pl-12 whitespace-pre">
+        {current}
+      </span>
       <select
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="type-small-bold cursor-pointer appearance-none rounded-12 bg-transparent py-8 pr-32 pl-12 text-text-strong transition-colors hover:bg-fill-weaker focus-visible:outline-2 focus-visible:outline-stroke-brand-strong"
+        className="type-small-bold absolute inset-0 w-full cursor-pointer appearance-none rounded-12 bg-transparent py-8 pr-32 pl-12 text-text-strong transition-colors hover:bg-fill-weaker focus-visible:outline-2 focus-visible:outline-stroke-brand-strong"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value} disabled={o.disabled}>
@@ -66,7 +72,7 @@ function MiniSelect({
   );
 }
 
-/** Month arrow using the flow's CaretDown icon, rotated. */
+/** Month arrow (Figma datePickerNav): CaretLeft / CaretRight 16. */
 function ArrowButton({ dir, onClick, disabled }: { dir: "prev" | "next"; onClick: () => void; disabled?: boolean }) {
   return (
     <button
@@ -77,7 +83,7 @@ function ArrowButton({ dir, onClick, disabled }: { dir: "prev" | "next"; onClick
       className="flex size-48 items-center justify-center disabled:opacity-30"
     >
       <span className="flex size-40 items-center justify-center rounded-full transition-colors hover:bg-fill-weaker">
-        <img src="/figma/caret-down.svg" alt="" width={16} height={16} className={dir === "prev" ? "rotate-90" : "-rotate-90"} />
+        <img src={dir === "prev" ? "/figma/caret-left.svg" : "/figma/caret-right.svg"} alt="" width={16} height={16} />
       </span>
     </button>
   );
@@ -238,7 +244,7 @@ function Picker({ value, onSelect, onClose }: Omit<Props, "open">) {
                       }}
                       className={`flex size-40 items-center justify-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stroke-brand-strong disabled:cursor-not-allowed disabled:text-text-disabled ${
                         isSelected
-                          ? "type-tiny-bold bg-fill-brand-strong text-text-inverse-strong"
+                          ? "type-small-bold bg-fill-brand-strong text-text-inverse-strong"
                           : isToday
                             ? "type-small-regular border border-stroke-brand-strong text-text-brand hover:bg-fill-brand-weak"
                             : "type-small-regular text-text-strong hover:bg-fill-weaker"
@@ -254,9 +260,13 @@ function Picker({ value, onSelect, onClose }: Omit<Props, "open">) {
         </div>
 
 
-        {/* Actions: Clear as a brand text link (like "Change"), then the flow's secondary + primary buttons. */}
+        {/* Actions: Clear as the Design Library link (Tiny/Bold underlined), then the flow's secondary + primary buttons. */}
         <div className="flex items-center gap-12 border-t border-stroke-weaker px-20 pt-12 pb-16">
-          <button type="button" onClick={() => setPending(null)} className="type-small-bold mr-auto text-text-brand hover:underline">
+          <button
+            type="button"
+            onClick={() => setPending(null)}
+            className="type-tiny-bold mr-auto rounded-12 px-4 py-[6px] text-text-brand underline decoration-from-font underline-offset-auto hover:no-underline focus-visible:outline-2 focus-visible:outline-stroke-brand-strong"
+          >
             Clear
           </button>
           <Button variant="secondary" size="small" className="w-auto! px-16!" onClick={onClose}>

@@ -45,19 +45,25 @@ type InputProps = {
   hint?: string;
   error?: string;
   icon?: string;
+  /** Icon shown while the field is focused or active (inputTextField focused: icon/weak instead of icon/weaker). */
+  focusedIcon?: string;
   /** Makes the icon a button (e.g. the calendar opening the date picker). */
   onIconClick?: () => void;
   iconLabel?: string;
+  /** Keeps the focused look while something attached to the field is open, e.g. the date picker (Figma dateDropdown open=true). */
+  active?: boolean;
   value: string;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "value">;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { label, hint, error, icon, onIconClick, iconLabel, value, onFocus, onBlur, className = "", ...rest },
+  { label, hint, error, icon, focusedIcon, onIconClick, iconLabel, active, value, onFocus, onBlur, className = "", ...rest },
   ref,
 ) {
   const id = useId();
-  const [focused, setFocused] = useState(false);
+  const [hasFocus, setFocused] = useState(false);
+  const focused = hasFocus || !!active;
   const raised = focused || value.length > 0;
+  const iconSrc = focused && focusedIcon ? focusedIcon : icon;
   return (
     <div className={`w-full px-16 pt-16 ${className}`}>
       {/* A click anywhere in the box (icon included, e.g. the Address search icon) puts the cursor in the field.
@@ -89,19 +95,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           }}
           {...rest}
         />
-        {icon &&
+        {iconSrc &&
           (onIconClick ? (
             <button
               type="button"
               onClick={onIconClick}
               aria-label={iconLabel}
+              aria-expanded={active}
               data-datepicker-toggle
               className="-mr-8 ml-0 shrink-0 rounded-12 p-8 hover:bg-fill-weaker focus-visible:outline-2 focus-visible:outline-stroke-brand-strong"
             >
-              <img src={icon} alt="" width={24} height={24} />
+              <img src={iconSrc} alt="" width={24} height={24} />
             </button>
           ) : (
-            <img src={icon} alt="" width={24} height={24} className="ml-8 shrink-0" />
+            <img src={iconSrc} alt="" width={24} height={24} className="ml-8 shrink-0" />
           ))}
       </div>
       <FieldMessage id={`${id}-msg`} hint={hint} error={error} />
@@ -251,7 +258,8 @@ export function Select({ label, options, hint, error, value, onChange, onBlur }:
           }}
           className="absolute right-0 flex h-full items-center pr-16 pl-8"
         >
-          <img src="/figma/caret-down.svg" alt="" width={16} height={16} className={`transition-transform ${open ? "rotate-180" : ""}`} />
+          {/* Figma selectDropdown keeps the caret pointing down while the list is open. */}
+          <img src="/figma/caret-down.svg" alt="" width={16} height={16} />
         </button>
         {open && shown.length > 0 && (
           <ul

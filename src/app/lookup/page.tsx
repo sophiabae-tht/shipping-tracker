@@ -171,8 +171,10 @@ function Lookup() {
                   inputMode="numeric"
                   autoComplete="bday"
                   icon="/figma/calendar.svg"
+                  focusedIcon="/figma/calendar-focused.svg"
                   onIconClick={() => setPickerOpen((v) => !v)}
                   iconLabel="Choose date of birth from a calendar"
+                  active={pickerOpen}
                   value={form.dob}
                   onChange={(e) => update("dob", maskDob(e.target.value))}
                   onBlur={() => blurCheck("dob")}
