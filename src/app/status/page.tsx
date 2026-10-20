@@ -198,7 +198,7 @@ function StatusPage() {
 
   return (
     <>
-      {/* Enrollment desktop04 layout: main card (480) + side card (352) on desktop; stacked on tablet. */}
+      {/* Enrollment desktop04 layout: main card (432, live enrollment width) + side card (352); stacked below 856px. */}
       <PageShell backHref={href("/lookup")}>
         <PageCard className="screen-enter flex-none">
           <PageHeading title={copy.title} size="h3" topSpacer="md">
@@ -214,8 +214,8 @@ function StatusPage() {
         </PageCard>
 
         <SideCard className="screen-enter screen-enter-late">
-          {/* The card edge replaces the first divider on tablet and desktop. */}
-          <div className="px-16 pt-16 web:[&>div]:border-t-0">
+          {/* In the side card, the card edge replaces the first divider and its top spacing (24 + 16 = 40px, matching the bottom). */}
+          <div className="px-16 pt-16 web:pt-0 web:[&>div]:border-t-0">
             <Accordion title="Order details" open={detailsOpen} onToggle={() => setDetailsOpen((v) => !v)}>
               <OrderDetails />
             </Accordion>

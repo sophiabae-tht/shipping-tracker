@@ -47,7 +47,9 @@ function Suggestions({
         <ul role="listbox" aria-label="Address suggestions">
           {items.map((s) => {
             const label = `${s.line1}, ${s.city} ${s.state}, USA`;
-            const typed = label.slice(0, query.trim().length);
+            // Bold the typed prefix only where the suggestion actually starts with it (as in the Figma frame).
+            const q = query.trim();
+            const typed = label.toLowerCase().startsWith(q.toLowerCase()) ? label.slice(0, q.length) : "";
             return (
               <li key={s.line1} role="option" aria-selected={false}>
                 <button

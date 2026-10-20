@@ -7,6 +7,7 @@ import { ErrorBanner, HavingTrouble, InfoCard, Modal } from "@/components/Feedba
 import { Input, Select } from "@/components/Field";
 import { PageCard, PageShell } from "@/components/PageShell";
 import { SampleMembers, type SamplePick } from "@/components/SampleMembers";
+import { DatePicker } from "@/components/DatePicker";
 import { BodyCopy, FullScreenMessage, PageHeading, SCREEN_EXIT_MS, StickyFooter, loadingCardMotion } from "@/components/Screen";
 import {
   MOCK_DELAY_MS,
@@ -43,6 +44,7 @@ function Lookup() {
   const [confirming, setConfirming] = useState(false);
   const [loading, setLoading] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => () => clearTimeout(timer.current), []);
@@ -163,16 +165,29 @@ function Lookup() {
                 error={errors.memberId}
                 hint={errors.memberId ? undefined : "Check the front of your member ID card."}
               />
-              <Input
-                label="Date of birth (mm/dd/yyyy)"
-                inputMode="numeric"
-                autoComplete="bday"
-                icon="/figma/calendar.svg"
-                value={form.dob}
-                onChange={(e) => update("dob", maskDob(e.target.value))}
-                onBlur={() => blurCheck("dob")}
-                error={errors.dob}
-              />
+              <div className="relative">
+                <Input
+                  label="Date of birth (mm/dd/yyyy)"
+                  inputMode="numeric"
+                  autoComplete="bday"
+                  icon="/figma/calendar.svg"
+                  onIconClick={() => setPickerOpen((v) => !v)}
+                  iconLabel="Choose date of birth from a calendar"
+                  value={form.dob}
+                  onChange={(e) => update("dob", maskDob(e.target.value))}
+                  onBlur={() => blurCheck("dob")}
+                  error={errors.dob}
+                />
+                <DatePicker
+                  open={pickerOpen}
+                  value={form.dob}
+                  onSelect={(dob) => {
+                    update("dob", dob);
+                    setPickerOpen(false);
+                  }}
+                  onClose={() => setPickerOpen(false)}
+                />
+              </div>
               {/* Lets Enter submit from any field. */}
               <button type="submit" hidden aria-hidden tabIndex={-1} />
             </form>

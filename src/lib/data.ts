@@ -108,10 +108,17 @@ export const SUGGESTIONS: Suggestion[] = [
   { line1: "5518 Alpha Road", city: "Dallas", state: "TX", zip: "75240" },
 ];
 
+/**
+ * Mock "Google" autocomplete: suggestions appear from the first character typed. Addresses starting with the
+ * query come first, then ones containing it; with no match the full list still shows, like a real lookup.
+ */
 export function matchSuggestions(query: string): Suggestion[] {
   const q = query.trim().toLowerCase();
-  if (q.length < 2) return [];
-  return SUGGESTIONS.filter((s) => s.line1.toLowerCase().startsWith(q));
+  if (!q) return [];
+  const starts = SUGGESTIONS.filter((s) => s.line1.toLowerCase().startsWith(q));
+  const contains = SUGGESTIONS.filter((s) => !starts.includes(s) && s.line1.toLowerCase().includes(q));
+  const matches = [...starts, ...contains];
+  return matches.length ? matches : SUGGESTIONS;
 }
 
 // ZIP prefixes the prototype knows about; anything else passes as long as it's 5 digits.

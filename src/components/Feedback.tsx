@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL } from "@/lib/data";
 
 export function CallLink({ children = SUPPORT_PHONE_DISPLAY, bold = false }: { children?: React.ReactNode; bold?: boolean }) {
@@ -107,21 +107,78 @@ export function Modal({
   );
 }
 
-/** toast (overlay effect style), pinned to the bottom of the screen; dismissible. */
+/**
+ * toast (overlay effect style), dismissible.
+ * Mobile: the Figma bottom card (status/address-changed). Tablet/desktop: a compact one-row notification.
+ * From the split breakpoint it sits centered at the top, in the header's empty middle, clear of the cards;
+ * narrower tablets don't have that room (it would cover the logo and "Need help?"), so it sits bottom-center.
+ */
+/** Auto-dismiss after this long (paused while hovered or focused), then fade out over TOAST_EXIT_MS. */
+const TOAST_MS = 4000;
+const TOAST_EXIT_MS = 200;
+
 export function Toast({ title, children, onClose }: { title: string; children: React.ReactNode; onClose: () => void }) {
+  const [leaving, setLeaving] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const dismiss = useCallback(() => setLeaving(true), []);
+  // Keep the latest onClose without restarting the timer when the parent re-renders.
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  useEffect(() => {
+    if (leaving) {
+      const t = setTimeout(() => onCloseRef.current(), TOAST_EXIT_MS);
+      return () => clearTimeout(t);
+    }
+    if (paused) return;
+    const t = setTimeout(dismiss, TOAST_MS);
+    return () => clearTimeout(t);
+  }, [leaving, paused, dismiss]);
+
+  const hold = {
+    onMouseEnter: () => setPaused(true),
+    onMouseLeave: () => setPaused(false),
+    onFocus: () => setPaused(true),
+    onBlur: () => setPaused(false),
+  };
+  const exit = leaving ? "toast-exit!" : "";
+
+  const close = (
+    <button type="button" onClick={dismiss} aria-label="Dismiss" className="-m-8 shrink-0 p-8">
+      <img src="/figma/toast-close.svg" alt="" width={24} height={24} />
+    </button>
+  );
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto max-w-[420px] px-16 pb-[40px] split:right-24 split:left-auto split:mx-0 split:w-[420px] split:pb-24">
-      <div role="status" className="pointer-events-auto rounded-16 bg-background-raised p-8 shadow-overlay">
-        <div className="flex items-start justify-between px-16 pt-16">
-          <IconContainer icon="/figma/check-success.svg" tone="success" />
-          <button type="button" onClick={onClose} aria-label="Dismiss" className="-m-8 p-8">
-            <img src="/figma/toast-close.svg" alt="" width={24} height={24} />
-          </button>
+    <>
+      <div className={`toast-up pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto max-w-[420px] px-16 pb-[40px] web:hidden ${exit}`}>
+        <div role="status" className="pointer-events-auto rounded-16 bg-background-raised p-8 shadow-overlay" {...hold}>
+          <div className="flex items-start justify-between px-16 pt-16">
+            <IconContainer icon="/figma/check-success.svg" tone="success" />
+            {close}
+          </div>
+          <p className="type-heading4-bold px-16 pt-16 text-text-strong">{title}</p>
+          <p className="type-small-regular px-16 pt-8 text-text-weak">{children}</p>
+          <div className="h-16" />
         </div>
-        <p className="type-heading4-bold px-16 pt-16 text-text-strong">{title}</p>
-        <p className="type-small-regular px-16 pt-8 text-text-weak">{children}</p>
-        <div className="h-16" />
       </div>
-    </div>
+      <div
+        className={`toast-up split:toast-down pointer-events-none fixed inset-x-0 bottom-24 z-30 hidden justify-center px-24 web:flex split:top-16 split:bottom-auto ${exit}`}
+      >
+        <div
+          {...hold}
+          role="status"
+          className="pointer-events-auto flex w-full max-w-[420px] items-center gap-16 rounded-16 bg-background-raised p-16 shadow-overlay"
+        >
+          <IconContainer icon="/figma/check-success.svg" tone="success" />
+          <div className="min-w-0 flex-1">
+            <p className="type-small-bold text-text-strong">{title}</p>
+            <p className="type-tiny-regular text-text-weak">{children}</p>
+          </div>
+          {close}
+        </div>
+      </div>
+    </>
   );
 }

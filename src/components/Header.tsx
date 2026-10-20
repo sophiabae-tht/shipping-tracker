@@ -38,6 +38,29 @@ function HelpAndLanguage() {
 }
 
 /**
+ * Tablet/desktop help + language, matching enroll.thrivemobile.com: compact text buttons
+ * (6/12px padding, radius 12, Tiny weight 620, underlined) with a hover tint.
+ */
+function WebHelpAndLanguage() {
+  const btn = "type-tiny-bold font-strong flex items-center rounded-12 px-12 py-[6px] transition-colors";
+  return (
+    <div className="flex items-center">
+      <a href={SUPPORT_PHONE_TEL} className={`${btn} text-text-brand hover:bg-fill-brand-weak`}>
+        <span className="underline">Need help?</span>
+      </a>
+      <button
+        type="button"
+        className={`${btn} gap-8 text-text-weak hover:bg-fill-weak hover:text-text-strong`}
+        aria-label="Español (not available in prototype)"
+      >
+        <img src="/figma/globe.svg" alt="" width={20} height={20} />
+        <span className="underline">Español</span>
+      </button>
+    </div>
+  );
+}
+
+/**
  * Mobile (< web): topAppBar from the Shipping file: back arrow + help/language.
  * Tablet and desktop (web+): webHeaderDesktop from the Enrollment file: wordmark + help/language;
  * there is no back arrow on larger screens.
@@ -53,15 +76,15 @@ export function Header({ backHref, onBack }: { backHref?: string; onBack?: () =>
           <HelpAndLanguage />
         </div>
       </header>
-      <header className="relative z-20 hidden h-[96px] items-center justify-between px-20 pt-8 web:flex min-[600px]:px-56">
-        <Link href="/" className="flex items-center gap-[15.647px]" aria-label="Thrive Mobile home">
-          <span className="pb-[2.235px]">
-            <img src="/figma/logo-symbol.svg" alt="" width={35.765} height={35.765} />
-          </span>
-          <img src="/figma/logo-wordmark.svg" alt="Thrive Mobile" width={127.283} height={15.647} />
-        </Link>
-        <div className="h-24">
-          <HelpAndLanguage />
+      {/* Same geometry as enroll.thrivemobile.com: 92px tall, content in a centered container up to 1100px
+          with 20px padding, logo and links vertically centered. */}
+      <header className="relative z-20 hidden h-[92px] items-center justify-center web:flex">
+        <div className="flex w-full max-w-[1100px] items-center justify-between p-20">
+          {/* Same 179×40 logo file as the live site. */}
+          <Link href="/" className="flex items-center" aria-label="Thrive Mobile home">
+            <img src="/figma/logo-thrive-mobile.svg" alt="Thrive Mobile" width={179} height={40} />
+          </Link>
+          <WebHelpAndLanguage />
         </div>
       </header>
     </>
