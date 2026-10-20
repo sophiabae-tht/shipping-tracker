@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { Accordion } from "@/components/Accordion";
 import { CallLink, Toast } from "@/components/Feedback";
-import { Header } from "@/components/Header";
+import { PageCard, PageShell, SideCard } from "@/components/PageShell";
 import { OrderTracker } from "@/components/OrderTracker";
 import { PageHeading, PrototypeLabel } from "@/components/Screen";
 import {
@@ -198,69 +198,65 @@ function StatusPage() {
 
   return (
     <>
-      <Header backHref={href("/lookup")} />
-      {/* Mobile and tablet: one column (Figma frames). Desktop: tracker on the left, details card on the right. */}
-      <main className="mx-auto flex w-full flex-1 flex-col md:max-w-[632px] md:px-16 md:pt-32 lg:max-w-[1072px]">
-        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start lg:gap-48">
-          <div>
-            <PageHeading title={copy.title} size="h3">
-              {copy.sublineStyle === "h4" ? (
-                <p className="type-heading4-bold px-16 pt-12 text-text-weak">{copy.subline}</p>
-              ) : (
-                <p className="type-small-regular px-16 pt-12 text-text-weak">{copy.subline}</p>
-              )}
-              {hasTracking && <TrackingInfo />}
-            </PageHeading>
+      {/* Enrollment desktop04 layout: main card (480) + side card (352) on desktop; stacked on tablet. */}
+      <PageShell backHref={href("/lookup")}>
+        <PageCard backHref={href("/lookup")} className="flex-none">
+          <PageHeading title={copy.title} size="h3" topSpacer="md">
+            {copy.sublineStyle === "h4" ? (
+              <p className="type-heading4-bold px-16 pt-12 text-text-weak">{copy.subline}</p>
+            ) : (
+              <p className="type-small-regular px-16 pt-12 text-text-weak">{copy.subline}</p>
+            )}
+            {hasTracking && <TrackingInfo />}
+          </PageHeading>
 
-            <OrderTracker status={member.status} showAddress={canChange} addressLines={addressLines} onChangeAddress={goChange} />
+          <OrderTracker status={member.status} showAddress={canChange} addressLines={addressLines} onChangeAddress={goChange} />
+        </PageCard>
+
+        <SideCard>
+          {/* The card edge replaces the first divider on tablet and desktop. */}
+          <div className="px-16 pt-16 md:[&>div]:border-t-0">
+            <Accordion title="Order details" open={detailsOpen} onToggle={() => setDetailsOpen((v) => !v)}>
+              <OrderDetails />
+            </Accordion>
           </div>
 
-          <div className="lg:sticky lg:top-[88px] lg:rounded-16 lg:border lg:border-stroke-weaker lg:bg-background-raised lg:pb-24 lg:shadow-raised">
-            {/* The card edge replaces the first divider on desktop. */}
-            <div className="px-16 pt-16 lg:[&>div]:border-t-0">
-              <Accordion title="Order details" open={detailsOpen} onToggle={() => setDetailsOpen((v) => !v)}>
-                <OrderDetails />
-              </Accordion>
+          <section aria-labelledby="shipping-address">
+            <SectionHeader
+              id="shipping-address"
+              title="Shipping address"
+              action={
+                canChange ? (
+                  <button type="button" onClick={goChange} className="type-small-bold text-text-brand">
+                    Change
+                  </button>
+                ) : undefined
+              }
+            />
+            <address className="type-small-regular px-16 pt-16 not-italic text-text-strong">
+              {addressLines.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+            </address>
+            <p className="type-small-regular px-16 pt-16 text-text-weak">{copy.note}</p>
+          </section>
+
+          <section aria-labelledby="contact-info">
+            <SectionHeader id="contact-info" title="Contact info" topPad="pt-24" />
+            <div className="type-small-regular px-16 pt-16 text-text-strong">
+              <p>{CONTACT.phone}</p>
+              <p>{CONTACT.email}</p>
             </div>
-
-            <section aria-labelledby="shipping-address">
-              <SectionHeader
-                id="shipping-address"
-                title="Shipping address"
-                action={
-                  canChange ? (
-                    <button type="button" onClick={goChange} className="type-small-bold text-text-brand">
-                      Change
-                    </button>
-                  ) : undefined
-                }
-              />
-              <address className="type-small-regular px-16 pt-16 not-italic text-text-strong">
-                {addressLines.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </address>
-              <p className="type-small-regular px-16 pt-16 text-text-weak">{copy.note}</p>
-            </section>
-
-            <section aria-labelledby="contact-info">
-              <SectionHeader id="contact-info" title="Contact info" topPad="pt-24" />
-              <div className="type-small-regular px-16 pt-16 text-text-strong">
-                <p>{CONTACT.phone}</p>
-                <p>{CONTACT.email}</p>
-              </div>
-              <p className="type-small-regular px-16 pt-16 text-text-weak">
-                Not your contact info? Call us at <CallLink />
-              </p>
-            </section>
-          </div>
-        </div>
-
-        <div className={toastOpen ? "h-[224px] lg:h-[40px]" : "h-[40px]"} />
-        <div className="mt-auto">
+            <p className="type-small-regular px-16 pt-16 text-text-weak">
+              Not your contact info? Call us at <CallLink />
+            </p>
+          </section>
+          <div className={`md:hidden ${toastOpen ? "h-[224px]" : "h-[40px]"}`} />
+          <div className="md:hidden">
           <PrototypeLabel />
-        </div>
-      </main>
+          </div>
+        </SideCard>
+      </PageShell>
 
       {toastOpen && (
         <Toast title="Your address is updated" onClose={() => setToastOpen(false)}>

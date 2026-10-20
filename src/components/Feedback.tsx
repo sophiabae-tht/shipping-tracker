@@ -89,7 +89,7 @@ export function Modal({
         aria-modal="true"
         aria-labelledby="modal-title"
         tabIndex={-1}
-        className="relative mx-auto max-h-full w-full max-w-[420px] overflow-y-auto rounded-16 bg-background-raised p-8 outline-none md:max-w-[480px] md:shadow-overlay"
+        className="relative mx-auto max-h-full w-full max-w-[420px] overflow-y-auto rounded-16 bg-background-raised p-8 outline-none md:w-[424px] md:max-w-none md:p-24"
       >
         <div className="px-16 pt-16">
           <div className="inline-flex">

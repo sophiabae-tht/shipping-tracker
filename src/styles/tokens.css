@@ -47,6 +47,7 @@
   --color-stroke-weak: #0d11401a;
   --color-stroke-weaker: #0c0f410d;
   --color-stroke-mid: #696d9b;
+  --color-stroke-strong: #383b61;
   --color-stroke-brand-strong: #4754eb;
   --color-stroke-selected: #4754eb;
   --color-stroke-error-strong: #d93636;
@@ -61,12 +62,14 @@
   --color-fill-warning-weak: #faece0;
   --color-fill-overlay-strong: #15173880;
   --color-fill-inverse-weaker: #ffffff4d;
+  --color-fill-inverse-weak: #ffffff80;
   --color-fill-hover-light: #ffffff1a;
   --color-illo-brand-dark: #27319b;
   --color-illo-brand-mid: #6773ee;
   --color-illo-brand-mid-weak: #b1bbec;
   --color-illo-brand-weak: #d9e1f7;
   --color-illo-brand-weaker: #eef0fb;
+  --color-illo-accent-weak: #cdf3d9;
   --color-illo-accent-mid: #a4ecbb;
   --color-effects-drop-shadow-weak: #0d11401a;
   --color-effects-drop-shadow-weaker: #0c0f410d;
@@ -81,7 +84,9 @@
   --spacing-20: 20px;
   --spacing-24: 24px;
   --spacing-32: 32px;
+  --spacing-40: 40px;
   --spacing-48: 48px;
+  --spacing-56: 56px;
   --spacing-64: 64px;
   --spacing-128: 128px;
 

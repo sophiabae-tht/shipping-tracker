@@ -5,8 +5,8 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/Button";
 import { ErrorBanner, HavingTrouble, InfoCard, Modal } from "@/components/Feedback";
 import { Input, Select } from "@/components/Field";
-import { Header } from "@/components/Header";
-import { BodyCopy, FORM_COLUMN, FullScreenMessage, PageHeading, StickyFooter } from "@/components/Screen";
+import { PageCard, PageShell } from "@/components/PageShell";
+import { BodyCopy, FullScreenMessage, PageHeading, StickyFooter } from "@/components/Screen";
 import {
   MOCK_DELAY_MS,
   SUPPORT_PHONE_TEL,
@@ -83,98 +83,100 @@ function Lookup() {
 
   if (loading) {
     return (
-      <>
-        <Header backHref={href("/")} />
-        <FullScreenMessage title="Getting your order details..." body="This will only take a moment." />
-      </>
+      <PageShell backHref={href("/")}>
+        <PageCard>
+          <FullScreenMessage title="Getting your order details..." body="This will only take a moment." />
+        </PageCard>
+      </PageShell>
     );
   }
 
   return (
     <>
-      <Header backHref={href("/")} />
-      <main className={FORM_COLUMN}>
-        <PageHeading title="Check on your Thrive phone" topSpacer>
-          <BodyCopy>Enter your details to find your order and confirm your shipping address.</BodyCopy>
-        </PageHeading>
+      <PageShell backHref={href("/")}>
+        <PageCard backHref={href("/")}>
+          <PageHeading title="Check on your Thrive phone" topSpacer>
+            <BodyCopy>Enter your details to find your order and confirm your shipping address.</BodyCopy>
+          </PageHeading>
 
-        {notFound && (
-          <ErrorBanner title="Something went wrong">
-            Please verify that the information entered matches your {form.plan || "health plan"} ID card and try again.
-          </ErrorBanner>
-        )}
-
-        <form
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (complete) onNext();
-          }}
-        >
-          <Input
-            label="First name"
-            autoComplete="given-name"
-            value={form.firstName}
-            onChange={(e) => update("firstName", e.target.value)}
-          />
-          <Input
-            label="Last name"
-            autoComplete="family-name"
-            value={form.lastName}
-            onChange={(e) => update("lastName", e.target.value)}
-            hint="The legal name you use on official documents, like your Social Security Card or State ID."
-          />
-          <Select
-            label="Health plan"
-            options={HEALTH_PLANS}
-            value={form.plan}
-            onChange={(v) => update("plan", v)}
-            onBlur={() => blurCheck("plan")}
-            error={errors.plan}
-          />
-          <Input
-            label="Member ID"
-            autoCapitalize="characters"
-            value={form.memberId}
-            onChange={(e) => update("memberId", e.target.value.toUpperCase())}
-            onBlur={() => blurCheck("memberId")}
-            error={errors.memberId}
-            hint={errors.memberId ? undefined : "Check the front of your member ID card."}
-          />
-          <Input
-            label="Date of birth (mm/dd/yyyy)"
-            inputMode="numeric"
-            autoComplete="bday"
-            icon="/figma/calendar.svg"
-            value={form.dob}
-            onChange={(e) => update("dob", maskDob(e.target.value))}
-            onBlur={() => blurCheck("dob")}
-            error={errors.dob}
-          />
-          {/* Lets Enter submit from any field. */}
-          <button type="submit" hidden aria-hidden tabIndex={-1} />
-        </form>
-
-        {notFound ? (
-          <HavingTrouble />
-        ) : (
-          <InfoCard icon="/figma/shield-check.svg" title="Why do we need this?">
-            We use it to confirm eligibility with your health plan. Your data is encrypted and secure.
-          </InfoCard>
-        )}
-
-        <div className="h-24" />
-        <StickyFooter>
-          <Button onClick={onNext} disabled={!complete}>
-            Next
-          </Button>
-          {complete && (
-            <Button variant="secondary" icon="/figma/headset.svg" href={SUPPORT_PHONE_TEL}>
-              I can&apos;t find my member ID
-            </Button>
+          {notFound && (
+            <ErrorBanner title="Something went wrong">
+              Please verify that the information entered matches your {form.plan || "health plan"} ID card and try again.
+            </ErrorBanner>
           )}
-        </StickyFooter>
-      </main>
+
+          <form
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (complete) onNext();
+            }}
+          >
+            <Input
+              label="First name"
+              autoComplete="given-name"
+              value={form.firstName}
+              onChange={(e) => update("firstName", e.target.value)}
+            />
+            <Input
+              label="Last name"
+              autoComplete="family-name"
+              value={form.lastName}
+              onChange={(e) => update("lastName", e.target.value)}
+              hint="The legal name you use on official documents, like your Social Security Card or State ID."
+            />
+            <Select
+              label="Health plan"
+              options={HEALTH_PLANS}
+              value={form.plan}
+              onChange={(v) => update("plan", v)}
+              onBlur={() => blurCheck("plan")}
+              error={errors.plan}
+            />
+            <Input
+              label="Member ID"
+              autoCapitalize="characters"
+              value={form.memberId}
+              onChange={(e) => update("memberId", e.target.value.toUpperCase())}
+              onBlur={() => blurCheck("memberId")}
+              error={errors.memberId}
+              hint={errors.memberId ? undefined : "Check the front of your member ID card."}
+            />
+            <Input
+              label="Date of birth (mm/dd/yyyy)"
+              inputMode="numeric"
+              autoComplete="bday"
+              icon="/figma/calendar.svg"
+              value={form.dob}
+              onChange={(e) => update("dob", maskDob(e.target.value))}
+              onBlur={() => blurCheck("dob")}
+              error={errors.dob}
+            />
+            {/* Lets Enter submit from any field. */}
+            <button type="submit" hidden aria-hidden tabIndex={-1} />
+          </form>
+
+          {notFound ? (
+            <HavingTrouble />
+          ) : (
+            <InfoCard icon="/figma/shield-check.svg" title="Why do we need this?">
+              We use it to confirm eligibility with your health plan. Your data is encrypted and secure.
+            </InfoCard>
+          )}
+
+          <div className="h-24 md:hidden" />
+          <StickyFooter>
+            <Button onClick={onNext} disabled={!complete}>
+              Next
+            </Button>
+            {complete && (
+              <Button variant="secondary" icon="/figma/headset.svg" href={SUPPORT_PHONE_TEL}>
+                I can&apos;t find my member ID
+              </Button>
+            )}
+          </StickyFooter>
+        </PageCard>
+      </PageShell>
 
       <Modal
         open={confirming}

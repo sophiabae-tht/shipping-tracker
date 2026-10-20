@@ -1,11 +1,10 @@
 {
-  "$source": "Figma file xEiMTQYPgWR3y8P51p6BI4 (Shipping) — variables resolved from the journey frames via get_variable_defs / Plugin API, default mode.",
+  "$source": "Figma file xEiMTQYPgWR3y8P51p6BI4 (Shipping) \u2014 variables resolved from the journey frames via get_variable_defs / Plugin API, default mode. Desktop layout variables (fill/inverseWeak, illo/accentWeak, stroke/strong, spacing/40, spacing/56) come from the Enrollment file 87r4A7N7Z2b2Q5mN6rVJOx, which defines the shared desktop layout.",
   "$generatedBy": "Run `npm run tokens` after editing to regenerate src/styles/tokens.css.",
   "colorsSemantic": {
     "background/base": "#f9f9fb",
     "background/raised": "#ffffff",
     "background/sunken": "#ecedf3",
-
     "text/strong": "#1f2247",
     "text/weak": "#565a86",
     "text/weaker": "#696d9b",
@@ -13,7 +12,6 @@
     "text/error": "#c01c1c",
     "text/inverseStrong": "#ffffff",
     "text/inverseWeak": "#ffffffb2",
-
     "icon/strong": "#1f2247",
     "icon/weak": "#565a86",
     "icon/weaker": "#8b8eb1",
@@ -22,14 +20,13 @@
     "icon/error": "#d93636",
     "icon/success": "#7fc54d",
     "icon/inverseStrong": "#ffffff",
-
     "stroke/weak": "#0d11401a",
     "stroke/weaker": "#0c0f410d",
     "stroke/mid": "#696d9b",
+    "stroke/strong": "#383b61",
     "stroke/brandStrong": "#4754eb",
     "stroke/selected": "#4754eb",
     "stroke/errorStrong": "#d93636",
-
     "fill/weaker": "#0c0f410d",
     "fill/disabled": "#0f123e26",
     "fill/brandStrong": "#4754eb",
@@ -41,15 +38,15 @@
     "fill/warningWeak": "#faece0",
     "fill/overlayStrong": "#15173880",
     "fill/inverseWeaker": "#ffffff4d",
+    "fill/inverseWeak": "#ffffff80",
     "fill/hoverLight": "#ffffff1a",
-
     "illo/brandDark": "#27319b",
     "illo/brandMid": "#6773ee",
     "illo/brandMidWeak": "#b1bbec",
     "illo/brandWeak": "#d9e1f7",
     "illo/brandWeaker": "#eef0fb",
+    "illo/accentWeak": "#cdf3d9",
     "illo/accentMid": "#a4ecbb",
-
     "effects/dropShadow/weak": "#0d11401a",
     "effects/dropShadow/weaker": "#0c0f410d"
   },
@@ -62,7 +59,9 @@
     "spacing/20": 20,
     "spacing/24": 24,
     "spacing/32": 32,
+    "spacing/40": 40,
     "spacing/48": 48,
+    "spacing/56": 56,
     "spacing/64": 64,
     "spacing/128": 128,
     "cornerRadius/16": 16
@@ -85,19 +84,82 @@
     "lineHeight/uppercase": 14
   },
   "textStyles": {
-    "Heading 3/Bold": { "family": "fontFamily/heading", "size": "fontSize/heading3", "lineHeight": "lineHeight/heading3", "weight": "fontWeight/strong", "letterSpacing": 0 },
-    "Heading 4/Bold": { "family": "fontFamily/heading", "size": "fontSize/heading4", "lineHeight": "lineHeight/heading4", "weight": "fontWeight/strong", "letterSpacing": 0 },
-    "Small/Regular": { "family": "fontFamily/body", "size": "fontSize/small", "lineHeight": "lineHeight/small", "weight": "fontWeight/weak", "letterSpacing": 0 },
-    "Small/Bold": { "family": "fontFamily/body", "size": "fontSize/small", "lineHeight": "lineHeight/small", "weight": "fontWeight/strong", "letterSpacing": 0 },
-    "Tiny/Regular": { "family": "fontFamily/body", "size": "fontSize/tiny", "lineHeight": "lineHeight/tiny", "weight": "fontWeight/weak", "letterSpacing": 0 },
-    "Tiny/Bold": { "family": "fontFamily/body", "size": "fontSize/tiny", "lineHeight": "lineHeight/tiny", "weight": "fontWeight/mid", "letterSpacing": 0 },
-    "UPPERCASE": { "family": "fontFamily/heading", "size": "fontSize/uppercase", "lineHeight": "lineHeight/uppercase", "weight": "fontWeight/strong", "letterSpacing": 0.3, "textTransform": "uppercase" }
+    "Heading 3/Bold": {
+      "family": "fontFamily/heading",
+      "size": "fontSize/heading3",
+      "lineHeight": "lineHeight/heading3",
+      "weight": "fontWeight/strong",
+      "letterSpacing": 0
+    },
+    "Heading 4/Bold": {
+      "family": "fontFamily/heading",
+      "size": "fontSize/heading4",
+      "lineHeight": "lineHeight/heading4",
+      "weight": "fontWeight/strong",
+      "letterSpacing": 0
+    },
+    "Small/Regular": {
+      "family": "fontFamily/body",
+      "size": "fontSize/small",
+      "lineHeight": "lineHeight/small",
+      "weight": "fontWeight/weak",
+      "letterSpacing": 0
+    },
+    "Small/Bold": {
+      "family": "fontFamily/body",
+      "size": "fontSize/small",
+      "lineHeight": "lineHeight/small",
+      "weight": "fontWeight/strong",
+      "letterSpacing": 0
+    },
+    "Tiny/Regular": {
+      "family": "fontFamily/body",
+      "size": "fontSize/tiny",
+      "lineHeight": "lineHeight/tiny",
+      "weight": "fontWeight/weak",
+      "letterSpacing": 0
+    },
+    "Tiny/Bold": {
+      "family": "fontFamily/body",
+      "size": "fontSize/tiny",
+      "lineHeight": "lineHeight/tiny",
+      "weight": "fontWeight/mid",
+      "letterSpacing": 0
+    },
+    "UPPERCASE": {
+      "family": "fontFamily/heading",
+      "size": "fontSize/uppercase",
+      "lineHeight": "lineHeight/uppercase",
+      "weight": "fontWeight/strong",
+      "letterSpacing": 0.3,
+      "textTransform": "uppercase"
+    }
   },
   "effectStyles": {
-    "raised": [{ "x": 0, "y": 2, "blur": 8, "spread": 0, "color": "effects/dropShadow/weaker" }],
+    "raised": [
+      {
+        "x": 0,
+        "y": 2,
+        "blur": 8,
+        "spread": 0,
+        "color": "effects/dropShadow/weaker"
+      }
+    ],
     "overlay": [
-      { "x": 0, "y": 8, "blur": 8, "spread": -4, "color": "effects/dropShadow/weaker" },
-      { "x": 0, "y": 20, "blur": 24, "spread": -4, "color": "effects/dropShadow/weak" }
+      {
+        "x": 0,
+        "y": 8,
+        "blur": 8,
+        "spread": -4,
+        "color": "effects/dropShadow/weaker"
+      },
+      {
+        "x": 0,
+        "y": 20,
+        "blur": 24,
+        "spread": -4,
+        "color": "effects/dropShadow/weak"
+      }
     ]
   }
 }

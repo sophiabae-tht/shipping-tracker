@@ -24,6 +24,16 @@ npm run dev   # http://localhost:3000
 Add `?mode=full` for the **FULL** journey rows; the default is **NO ADDRESS CHANGE**.
 The **Controls** pill (bottom-right) switches mode and jumps to any member's status page.
 
+## Responsive layout
+
+- **Mobile (< 768px):** the 360px Shipping frames: topAppBar, full-bleed content, sticky bottom buttons.
+- **Tablet and desktop (≥ 768px):** the desktop layout from the
+  [Enrollment file](https://www.figma.com/design/87r4A7N7Z2b2Q5mN6rVJOx/Enrollment?node-id=884-23933):
+  `webHeaderDesktop` (96px), `background/sunken` with the gradient background, 480px cards
+  (`fill/inverseWeak`, 24px radius) with the back arrow inside, buttons in the flow, centered 424px modals.
+- **Desktop (≥ 1024px):** the status page splits into the 480px main card plus a 352px side card
+  (`fill/inverseWeaker`), 24px apart (Enrollment `desktop04`). On tablet the two cards stack.
+
 ## Mock members
 
 Match on last name + member ID + date of birth. Anything else shows the not-found error.

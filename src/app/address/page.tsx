@@ -5,8 +5,8 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/Button";
 import { ErrorBanner, HavingTrouble, Modal } from "@/components/Feedback";
 import { Input, Select } from "@/components/Field";
-import { Header } from "@/components/Header";
-import { BodyCopy, FORM_COLUMN, FullScreenMessage, PageHeading, StickyFooter } from "@/components/Screen";
+import { PageCard, PageShell } from "@/components/PageShell";
+import { BodyCopy, FullScreenMessage, PageHeading, StickyFooter } from "@/components/Screen";
 import {
   MOCK_DELAY_MS,
   US_STATES,
@@ -139,10 +139,11 @@ function AddressEdit() {
 
   if (saving) {
     return (
-      <>
-        <Header backHref={statusHref} />
-        <FullScreenMessage title="Updating your address..." body="This will only take a moment." />
-      </>
+      <PageShell backHref={statusHref}>
+        <PageCard>
+          <FullScreenMessage title="Updating your address..." body="This will only take a moment." />
+        </PageCard>
+      </PageShell>
     );
   }
 
@@ -151,81 +152,82 @@ function AddressEdit() {
 
   return (
     <>
-      <Header backHref={statusHref} />
-      <main className={FORM_COLUMN}>
-        <PageHeading title="Update your shipping address" topSpacer>
-          <BodyCopy>We’ll send your phone to this address.</BodyCopy>
-          <BodyCopy>Use a residential (home) address - no PO Boxes or business addresses.</BodyCopy>
-        </PageHeading>
+      <PageShell backHref={statusHref}>
+        <PageCard backHref={statusHref}>
+          <PageHeading title="Update your shipping address" topSpacer>
+            <BodyCopy>We’ll send your phone to this address.</BodyCopy>
+            <BodyCopy>Use a residential (home) address - no PO Boxes or business addresses.</BodyCopy>
+          </PageHeading>
 
-        {saveFailed && (
-          <ErrorBanner title="Something went wrong">
-            Your address wasn’t updated. Please call Thrive Support for assistance or try again.
-          </ErrorBanner>
-        )}
+          {saveFailed && (
+            <ErrorBanner title="Something went wrong">
+              Your address wasn’t updated. Please call Thrive Support for assistance or try again.
+            </ErrorBanner>
+          )}
 
-        <form
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (complete) onUpdate();
-          }}
-        >
-          <div className="relative">
+          <form
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (complete) onUpdate();
+            }}
+          >
+            <div className="relative">
+              <Input
+                label="Address"
+                autoComplete="off"
+                icon="/figma/search.svg"
+                value={form.line1}
+                role="combobox"
+                aria-expanded={suggestions.length > 0}
+                aria-autocomplete="list"
+                onChange={(e) => {
+                  update("line1", e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setShowSuggestions(false)}
+                onKeyDown={(e) => e.key === "Escape" && setShowSuggestions(false)}
+              />
+              {suggestions.length > 0 && (
+                <Suggestions query={form.line1} items={suggestions} onPick={pick} onClose={() => setShowSuggestions(false)} />
+              )}
+            </div>
             <Input
-              label="Address"
-              autoComplete="off"
-              icon="/figma/search.svg"
-              value={form.line1}
-              role="combobox"
-              aria-expanded={suggestions.length > 0}
-              aria-autocomplete="list"
-              onChange={(e) => {
-                update("line1", e.target.value);
-                setShowSuggestions(true);
-              }}
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setShowSuggestions(false)}
-              onKeyDown={(e) => e.key === "Escape" && setShowSuggestions(false)}
+              label="Apt / Unit (optional)"
+              autoComplete="address-line2"
+              value={form.line2}
+              onChange={(e) => update("line2", e.target.value)}
             />
-            {suggestions.length > 0 && (
-              <Suggestions query={form.line1} items={suggestions} onPick={pick} onClose={() => setShowSuggestions(false)} />
-            )}
-          </div>
-          <Input
-            label="Apt / Unit (optional)"
-            autoComplete="address-line2"
-            value={form.line2}
-            onChange={(e) => update("line2", e.target.value)}
-          />
-          <Input
-            label="ZIP code"
-            inputMode="numeric"
-            autoComplete="postal-code"
-            maxLength={5}
-            value={form.zip}
-            onChange={(e) => update("zip", e.target.value.replace(/\D/g, ""))}
-            error={zipError}
-          />
-          <Input
-            label="City"
-            autoComplete="address-level2"
-            value={form.city}
-            onChange={(e) => update("city", e.target.value)}
-          />
-          <Select label="State" options={US_STATES} value={form.state} onChange={(v) => update("state", v)} />
-          <button type="submit" hidden aria-hidden tabIndex={-1} />
-        </form>
+            <Input
+              label="ZIP code"
+              inputMode="numeric"
+              autoComplete="postal-code"
+              maxLength={5}
+              value={form.zip}
+              onChange={(e) => update("zip", e.target.value.replace(/\D/g, ""))}
+              error={zipError}
+            />
+            <Input
+              label="City"
+              autoComplete="address-level2"
+              value={form.city}
+              onChange={(e) => update("city", e.target.value)}
+            />
+            <Select label="State" options={US_STATES} value={form.state} onChange={(v) => update("state", v)} />
+            <button type="submit" hidden aria-hidden tabIndex={-1} />
+          </form>
 
-        {(zipError || saveFailed) && <HavingTrouble />}
+          {(zipError || saveFailed) && <HavingTrouble />}
 
-        <div className="h-24" />
-        <StickyFooter>
-          <Button onClick={onUpdate} disabled={!complete}>
-            Update address
-          </Button>
-        </StickyFooter>
-      </main>
+          <div className="h-24 md:hidden" />
+          <StickyFooter>
+            <Button onClick={onUpdate} disabled={!complete}>
+              Update address
+            </Button>
+          </StickyFooter>
+        </PageCard>
+      </PageShell>
 
       <Modal
         open={confirming}

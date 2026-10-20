@@ -7,12 +7,13 @@ export function PageHeading({
 }: {
   title: string;
   size?: "h3" | "h4";
-  topSpacer?: boolean;
+  /** true: always (form screens); "md": only in the desktop card layout, as in the Enrollment pageHeader. */
+  topSpacer?: boolean | "md";
   children?: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col">
-      {topSpacer && <div className="h-16" />}
+      {topSpacer && <div className={topSpacer === "md" ? "hidden h-16 md:block" : "h-16"} />}
       <h1 className={`px-16 pt-16 text-text-strong ${size === "h3" ? "type-heading3-bold" : "type-heading4-bold"}`}>{title}</h1>
       {children}
       <div className="h-8" />
@@ -32,15 +33,17 @@ export function PrototypeLabel({ inverse = false }: { inverse?: boolean }) {
   );
 }
 
-/** Centered content column for single-column screens (forms) on tablet and desktop. */
-export const FORM_COLUMN = "mx-auto flex w-full flex-1 flex-col md:max-w-[592px] md:px-16 md:pt-32";
-
-/** appFooter: sticky bottom bar on mobile; sits in the page flow under the form on tablet and desktop. */
+/**
+ * Mobile: appFooter, a sticky bottom bar. md+: buttonGroupWide in the card's flow
+ * (spacer/16 + pt spacing/16), as in the Enrollment desktop frames.
+ */
 export function StickyFooter({ children }: { children: React.ReactNode }) {
   return (
-    <div className="sticky bottom-0 z-10 mt-auto bg-background-base md:static md:mt-0 md:pt-8 md:pb-32">
+    <div className="sticky bottom-0 z-10 mt-auto bg-background-base md:static md:mt-0 md:bg-transparent md:pt-16">
       <div className="flex flex-col gap-16 px-16 pt-16">{children}</div>
-      <PrototypeLabel />
+      <div className="md:hidden">
+        <PrototypeLabel />
+      </div>
     </div>
   );
 }
@@ -48,7 +51,7 @@ export function StickyFooter({ children }: { children: React.ReactNode }) {
 /** fullScreenMessage: centered illustration + message used for loading states. */
 export function FullScreenMessage({ title, body }: { title: string; body: string }) {
   return (
-    <div className="flex flex-1 flex-col items-center p-16" role="status" aria-live="polite">
+    <div className="flex flex-1 flex-col items-center p-16 md:min-h-[576px]" role="status" aria-live="polite">
       <div className="flex flex-1 flex-col items-center justify-end">
         <img src="/figma/loading.svg" alt="" width={96} height={96} className="animate-loading" />
       </div>
@@ -57,7 +60,9 @@ export function FullScreenMessage({ title, body }: { title: string; body: string
         <p className="type-small-regular px-16 pt-12 text-center text-text-weak">{body}</p>
       </div>
       <div className="flex-1" />
-      <PrototypeLabel />
+      <div className="md:hidden">
+        <PrototypeLabel />
+      </div>
     </div>
   );
 }
