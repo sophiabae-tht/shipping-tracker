@@ -21,7 +21,7 @@ const FAQS = [
 ];
 
 function FooterLink({ children, href }: { children: React.ReactNode; href?: string }) {
-  const cls = "t-tiny block px-4 pt-3 text-text-inverse";
+  const cls = "type-tiny-regular block px-16 pt-12 text-text-inverse-strong";
   return href ? (
     <Link href={href} className={`${cls} underline-offset-2 hover:underline`}>
       {children}
@@ -32,11 +32,11 @@ function FooterLink({ children, href }: { children: React.ReactNode; href?: stri
 }
 
 function FooterHeader({ children }: { children: React.ReactNode }) {
-  return <p className="t-tiny-bold px-4 pb-4 text-text-inverse">{children}</p>;
+  return <p className="type-tiny-bold px-16 pb-16 text-text-inverse-strong">{children}</p>;
 }
 
 function FooterSubHeader({ children }: { children: React.ReactNode }) {
-  return <p className="t-tiny px-4 pt-3 text-text-inverse-weak underline">{children}</p>;
+  return <p className="type-tiny-regular px-16 pt-12 text-text-inverse-weak underline">{children}</p>;
 }
 
 function EntryHome() {
@@ -44,32 +44,32 @@ function EntryHome() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <main className="relative isolate flex flex-1 flex-col overflow-hidden bg-bg-sunken">
+    <main className="relative isolate flex flex-1 flex-col overflow-hidden bg-background-sunken">
       <Header />
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <img src="/figma/gradient-green.svg" alt="" className="absolute -right-[389px] top-[221px] h-[779px] w-[779px] max-w-none" />
         <img src="/figma/gradient-blue.svg" alt="" className="absolute -left-[377px] top-[347px] h-[779px] w-[779px] max-w-none" />
       </div>
 
-      <section className="px-4 pt-16" aria-label="Frequently asked questions">
-        <div className="px-4 pt-4">
+      <section className="mx-auto w-full max-w-[752px] px-16 pt-64" aria-label="Frequently asked questions">
+        <div className="px-16 pt-16">
           {FAQS.map((q, i) => (
             <Accordion key={q} title={q} open={openIndex === i} onToggle={() => setOpenIndex(openIndex === i ? null : i)}>
-              <p className="t-small pb-4 text-text-weak">Placeholder answer for the prototype.</p>
+              <p className="type-small-regular pb-16 text-text-weak">Placeholder answer for the prototype.</p>
             </Accordion>
           ))}
         </div>
       </section>
 
-      <div className="h-32" />
+      <div className="h-128" />
 
-      <footer className="bg-illo-brandmid p-8">
-        <div className="mx-auto flex max-w-[576px] flex-col">
-          <div className="flex items-start justify-between pt-4">
-            <div className="px-4">
+      <footer className="bg-illo-brand-mid p-32">
+        <div className="mx-auto flex w-full max-w-[576px] flex-col lg:max-w-[1040px]">
+          <div className="flex items-start justify-between pt-16">
+            <div className="px-16">
               <img src="/figma/logo-symbol-white.svg" alt="Thrive Mobile" width={38} height={38} />
             </div>
-            <div className="flex items-center gap-4 px-4">
+            <div className="flex items-center gap-16 px-16">
               <a href={SUPPORT_PHONE_TEL} aria-label="Call Thrive Mobile">
                 <img src="/figma/phone.svg" alt="" width={24} height={24} />
               </a>
@@ -78,8 +78,8 @@ function EntryHome() {
               <img src="/figma/linkedin.svg" alt="" width={24} height={24} />
             </div>
           </div>
-          <div className="h-8" />
-          <nav className="flex flex-col gap-12 py-4" aria-label="Footer">
+          <div className="h-32" />
+          <nav className="flex flex-col gap-48 py-16 md:grid md:grid-cols-3 md:gap-32" aria-label="Footer">
             <div>
               <FooterHeader>Product</FooterHeader>
               <FooterLink>Wireless plans</FooterLink>
@@ -91,12 +91,12 @@ function EntryHome() {
               <FooterHeader>Partners</FooterHeader>
               <FooterSubHeader>States</FooterSubHeader>
               <FooterLink>Louisiana Department of Health</FooterLink>
-              <div className="h-3" />
+              <div className="h-12" />
               <FooterSubHeader>Health plans</FooterSubHeader>
               <FooterLink>Aetna</FooterLink>
               <FooterLink>Gold Kidney</FooterLink>
               <FooterLink>Denver Health</FooterLink>
-              <div className="h-3" />
+              <div className="h-12" />
               <FooterSubHeader>Providers</FooterSubHeader>
               <FooterLink>FQHCs</FooterLink>
             </div>
@@ -108,8 +108,8 @@ function EntryHome() {
               <FooterLink>Accessibility Policy</FooterLink>
             </div>
           </nav>
-          <div className="h-8" />
-          <p className="t-tiny px-4 pb-4 text-text-inverse-weak">
+          <div className="h-32" />
+          <p className="type-tiny-regular px-16 pb-16 text-text-inverse-weak">
             © 2025 Thrive Health Tech, Inc.
             <br />
             All rights reserved.

@@ -103,21 +103,21 @@ function TrackingInfo() {
     } catch {}
   };
   return (
-    <div className="flex flex-col gap-3 px-4 pt-4">
-      <div className="flex flex-col gap-1">
-        <p className="t-upper text-[12px] text-text-weaker">Carrier</p>
-        <p className="t-small text-text-strong">USPS</p>
+    <div className="flex flex-col gap-12 px-16 pt-16">
+      <div className="flex flex-col gap-4">
+        <p className="type-uppercase text-[12px] text-text-weaker">Carrier</p>
+        <p className="type-small-regular text-text-strong">USPS</p>
       </div>
-      <div className="flex flex-col gap-1">
-        <p className="t-upper text-[12px] text-text-weaker">Tracking Number</p>
-        <div className="flex items-center gap-2">
-          <a href={TRACKING_URL} target="_blank" rel="noopener noreferrer" className="t-small text-text-strong underline">
+      <div className="flex flex-col gap-4">
+        <p className="type-uppercase text-[12px] text-text-weaker">Tracking Number</p>
+        <div className="flex items-center gap-8">
+          <a href={TRACKING_URL} target="_blank" rel="noopener noreferrer" className="type-small-regular text-text-strong underline">
             {TRACKING_NUMBER}
           </a>
-          <button type="button" onClick={copy} aria-label="Copy tracking number" className="-m-1 p-1">
+          <button type="button" onClick={copy} aria-label="Copy tracking number" className="-m-4 p-4">
             <img src="/figma/copy.svg" alt="" width={20} height={20} />
           </button>
-          <span aria-live="polite" className="t-tiny text-text-weaker">
+          <span aria-live="polite" className="type-tiny-regular text-text-weaker">
             {copied ? "Copied" : ""}
           </span>
         </div>
@@ -126,11 +126,11 @@ function TrackingInfo() {
   );
 }
 
-function SectionHeader({ title, action, topPad = "pt-4" }: { title: string; action?: React.ReactNode; topPad?: string }) {
+function SectionHeader({ id, title, action, topPad = "pt-16" }: { id?: string; title: string; action?: React.ReactNode; topPad?: string }) {
   return (
-    <div className={`px-4 ${topPad}`}>
-      <div className="flex items-center justify-between border-t border-stroke-weaker pt-4">
-        <h2 className="t-small-bold flex-1 text-text-strong">{title}</h2>
+    <div className={`px-16 ${topPad}`}>
+      <div className="flex items-center justify-between border-t border-stroke-weaker pt-16">
+        <h2 id={id} className="type-small-bold flex-1 text-text-strong">{title}</h2>
         {action}
       </div>
     </div>
@@ -139,29 +139,29 @@ function SectionHeader({ title, action, topPad = "pt-4" }: { title: string; acti
 
 function OrderDetails() {
   return (
-    <div className="pt-2">
-      <div className="rounded-2xl border border-stroke-weaker bg-fill-weaker">
-        <div className="flex flex-col gap-6 rounded-2xl bg-white/30 p-4">
-          <div className="flex items-start gap-4">
-            <div className="flex w-12 items-center justify-center rounded-full bg-illo-brandweak p-3">
+    <div className="pt-8">
+      <div className="rounded-16 border border-stroke-weaker bg-fill-weaker">
+        <div className="flex flex-col gap-24 rounded-16 bg-fill-inverse-weaker p-16">
+          <div className="flex items-start gap-16">
+            <div className="flex w-48 items-center justify-center rounded-full bg-fill-brand-weaker p-12">
               <img src="/figma/cell-signal.svg" alt="" width={24} height={24} />
             </div>
             <div>
-              <p className="t-small-bold text-text-strong">Basic 5G</p>
-              <p className="t-small text-text-weak">$0/mo</p>
+              <p className="type-small-bold text-text-strong">Basic 5G</p>
+              <p className="type-small-regular text-text-weak">$0/mo</p>
             </div>
           </div>
-          <div className="flex items-start gap-4">
+          <div className="flex items-start gap-16">
             <img
               src="/figma/device.png"
               alt=""
               width={48}
               height={48}
-              className="size-12 rounded border border-stroke-weak bg-white object-cover"
+              className="size-48 rounded-4 border border-stroke-weak bg-background-raised object-cover"
             />
             <div>
-              <p className="t-small-bold text-text-strong">Device name</p>
-              <p className="t-small text-text-weak">$95.00</p>
+              <p className="type-small-bold text-text-strong">Device name</p>
+              <p className="type-small-regular text-text-weak">$95.00</p>
             </div>
           </div>
         </div>
@@ -199,55 +199,64 @@ function StatusPage() {
   return (
     <>
       <Header backHref={href("/lookup")} />
-      <main className="flex flex-1 flex-col">
-        <PageHeading title={copy.title} size="h3">
-          {copy.sublineStyle === "h4" ? (
-            <p className="t-h4 px-4 pt-3 text-text-weak">{copy.subline}</p>
-          ) : (
-            <p className="t-small px-4 pt-3 text-text-weak">{copy.subline}</p>
-          )}
-          {hasTracking && <TrackingInfo />}
-        </PageHeading>
+      {/* Mobile and tablet: one column (Figma frames). Desktop: tracker on the left, details card on the right. */}
+      <main className="mx-auto flex w-full flex-1 flex-col md:max-w-[632px] md:px-16 md:pt-32 lg:max-w-[1072px]">
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start lg:gap-48">
+          <div>
+            <PageHeading title={copy.title} size="h3">
+              {copy.sublineStyle === "h4" ? (
+                <p className="type-heading4-bold px-16 pt-12 text-text-weak">{copy.subline}</p>
+              ) : (
+                <p className="type-small-regular px-16 pt-12 text-text-weak">{copy.subline}</p>
+              )}
+              {hasTracking && <TrackingInfo />}
+            </PageHeading>
 
-        <OrderTracker status={member.status} showAddress={canChange} addressLines={addressLines} onChangeAddress={goChange} />
+            <OrderTracker status={member.status} showAddress={canChange} addressLines={addressLines} onChangeAddress={goChange} />
+          </div>
 
-        <div className="px-4 pt-4">
-          <Accordion title="Order details" open={detailsOpen} onToggle={() => setDetailsOpen((v) => !v)}>
-            <OrderDetails />
-          </Accordion>
+          <div className="lg:sticky lg:top-[88px] lg:rounded-16 lg:border lg:border-stroke-weaker lg:bg-background-raised lg:pb-24 lg:shadow-raised">
+            {/* The card edge replaces the first divider on desktop. */}
+            <div className="px-16 pt-16 lg:[&>div]:border-t-0">
+              <Accordion title="Order details" open={detailsOpen} onToggle={() => setDetailsOpen((v) => !v)}>
+                <OrderDetails />
+              </Accordion>
+            </div>
+
+            <section aria-labelledby="shipping-address">
+              <SectionHeader
+                id="shipping-address"
+                title="Shipping address"
+                action={
+                  canChange ? (
+                    <button type="button" onClick={goChange} className="type-small-bold text-text-brand">
+                      Change
+                    </button>
+                  ) : undefined
+                }
+              />
+              <address className="type-small-regular px-16 pt-16 not-italic text-text-strong">
+                {addressLines.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </address>
+              <p className="type-small-regular px-16 pt-16 text-text-weak">{copy.note}</p>
+            </section>
+
+            <section aria-labelledby="contact-info">
+              <SectionHeader id="contact-info" title="Contact info" topPad="pt-24" />
+              <div className="type-small-regular px-16 pt-16 text-text-strong">
+                <p>{CONTACT.phone}</p>
+                <p>{CONTACT.email}</p>
+              </div>
+              <p className="type-small-regular px-16 pt-16 text-text-weak">
+                Not your contact info? Call us at <CallLink />
+              </p>
+            </section>
+          </div>
         </div>
 
-        <section aria-labelledby="shipping-address">
-          <SectionHeader
-            title="Shipping address"
-            action={
-              canChange ? (
-                <button type="button" onClick={goChange} className="t-small-bold text-text-brand">
-                  Change
-                </button>
-              ) : undefined
-            }
-          />
-          <address className="t-small px-4 pt-4 not-italic text-text-strong">
-            {addressLines.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-          </address>
-          <p className="t-small px-4 pt-4 text-text-weak">{copy.note}</p>
-        </section>
-
-        <section>
-          <SectionHeader title="Contact info" topPad="pt-6" />
-          <div className="t-small px-4 pt-4 text-text-strong">
-            <p>{CONTACT.phone}</p>
-            <p>{CONTACT.email}</p>
-          </div>
-          <p className="t-small px-4 pt-4 text-text-weak">
-            Not your contact info? Call us at <CallLink />
-          </p>
-        </section>
-
-        <div className={toastOpen ? "h-56" : "h-10"} />
+        <div className={toastOpen ? "h-[224px] lg:h-[40px]" : "h-[40px]"} />
         <div className="mt-auto">
           <PrototypeLabel />
         </div>

@@ -6,7 +6,7 @@ import { Button } from "@/components/Button";
 import { ErrorBanner, HavingTrouble, InfoCard, Modal } from "@/components/Feedback";
 import { Input, Select } from "@/components/Field";
 import { Header } from "@/components/Header";
-import { BodyCopy, FullScreenMessage, PageHeading, StickyFooter } from "@/components/Screen";
+import { BodyCopy, FORM_COLUMN, FullScreenMessage, PageHeading, StickyFooter } from "@/components/Screen";
 import {
   MOCK_DELAY_MS,
   SUPPORT_PHONE_TEL,
@@ -93,7 +93,7 @@ function Lookup() {
   return (
     <>
       <Header backHref={href("/")} />
-      <main className="flex flex-1 flex-col">
+      <main className={FORM_COLUMN}>
         <PageHeading title="Check on your Thrive phone" topSpacer>
           <BodyCopy>Enter your details to find your order and confirm your shipping address.</BodyCopy>
         </PageHeading>
@@ -163,7 +163,7 @@ function Lookup() {
           </InfoCard>
         )}
 
-        <div className="h-6" />
+        <div className="h-24" />
         <StickyFooter>
           <Button onClick={onNext} disabled={!complete}>
             Next
@@ -189,7 +189,7 @@ function Lookup() {
           </>
         }
       >
-        {confirming && <p className="t-h4 px-4 pt-2 text-text-weak">{formatLongDate(form.dob)}</p>}
+        {confirming && <p className="type-heading4-bold px-16 pt-8 text-text-weak">{formatLongDate(form.dob)}</p>}
       </Modal>
     </>
   );

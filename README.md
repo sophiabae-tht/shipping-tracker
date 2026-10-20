@@ -39,3 +39,24 @@ Match on last name + member ID + date of birth. Anything else shows the not-foun
 
 Address flow test hooks: Dallas + TX with ZIP `40202` triggers the ZIP error; an Address containing
 `ERROR` simulates a save failure. Address changes persist per tab (sessionStorage).
+
+## Design tokens
+
+Colors, spacing, radii, typography and shadows are imported from the Figma file's variables
+(`colorsSemantic`, `spacing`, `typography` collections) plus its text and effect styles.
+
+- `design-tokens/figma-variables.json`: the imported variables, using their Figma names.
+- `npm run tokens`: regenerates `src/styles/tokens.css` (a Tailwind `@theme`).
+- Tailwind's default palette, spacing, radii and shadows are turned off, so only Figma tokens can be used.
+
+| Figma | Class |
+|---|---|
+| `text/strong`, `fill/brandStrong`, `stroke/weak` | `text-text-strong`, `bg-fill-brand-strong`, `border-stroke-weak` |
+| `spacing/16` | `p-16`, `gap-16`, `h-16` … |
+| `spacing/12`, `cornerRadius/16` | `rounded-12`, `rounded-16` |
+| `Small/Bold`, `Heading 4/Bold`, `UPPERCASE` | `type-small-bold`, `type-heading4-bold`, `type-uppercase` |
+| `raised`, `overlay` effects | `shadow-raised`, `shadow-overlay` |
+
+Icons and illustrations in `public/figma/` are exported from the file. Fonts are the design's General Sans
+Medium and Semibold OTFs (`public/figma/fonts/`), registered as "General Sans Web" so a locally installed copy
+of General Sans can't override them.

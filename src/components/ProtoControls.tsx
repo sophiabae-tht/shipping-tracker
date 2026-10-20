@@ -30,14 +30,14 @@ export function ProtoControls() {
   };
 
   return (
-    <div className="fixed right-2 bottom-1 z-50 flex flex-col items-end gap-2 font-sans">
+    <div className="fixed right-8 bottom-4 z-50 flex flex-col items-end gap-8 font-body">
       {open && (
         <div
           id="proto-controls"
-          className="shadow-overlay w-64 rounded-2xl border border-stroke-weak bg-bg-raised p-3 text-[13px] leading-5 text-text-strong"
+          className="type-tiny-regular w-[256px] rounded-16 border border-stroke-weak bg-background-raised p-12 text-text-strong shadow-overlay"
         >
-          <p className="t-upper pb-2 text-text-weak">Journey mode</p>
-          <div className="grid grid-cols-2 gap-1 rounded-xl bg-fill-weaker p-1">
+          <p className="type-uppercase pb-8 text-text-weak">Journey mode</p>
+          <div className="grid grid-cols-2 gap-4 rounded-12 bg-fill-weaker p-4">
             {(
               [
                 ["no-change", "No address change"],
@@ -49,8 +49,8 @@ export function ProtoControls() {
                 type="button"
                 aria-pressed={mode === value}
                 onClick={() => setMode(value)}
-                className={`rounded-lg px-2 py-1.5 font-semibold ${
-                  mode === value ? "bg-bg-raised text-text-brand shadow-sm" : "text-text-weak"
+                className={`rounded-12 px-8 py-[6px] font-mid ${
+                  mode === value ? "bg-background-raised text-text-brand shadow-raised" : "text-text-weak"
                 }`}
               >
                 {label}
@@ -58,16 +58,16 @@ export function ProtoControls() {
             ))}
           </div>
 
-          <p className="t-upper pt-3 pb-1 text-text-weak">Jump to status</p>
+          <p className="type-uppercase pt-12 pb-4 text-text-weak">Jump to status</p>
           <ul className="flex flex-col">
             {MEMBERS.map((m) => (
               <li key={m.key}>
                 <Link
                   href={withMode("/status", { m: m.key })}
                   onClick={() => setOpen(false)}
-                  className="flex justify-between rounded-lg px-2 py-1 hover:bg-fill-weaker"
+                  className="flex justify-between rounded-12 px-8 py-4 hover:bg-fill-weaker"
                 >
-                  <span className="font-semibold">{m.lastName}</span>
+                  <span className="font-mid">{m.lastName}</span>
                   <span className="text-text-weak">
                     {m.aep ? "AEP · " : ""}
                     {STATUS_LABEL[m.status]}
@@ -77,8 +77,8 @@ export function ProtoControls() {
             ))}
           </ul>
 
-          <p className="t-upper pt-3 pb-1 text-text-weak">Screens</p>
-          <div className="flex flex-wrap gap-x-3 gap-y-1 px-2">
+          <p className="type-uppercase pt-12 pb-4 text-text-weak">Screens</p>
+          <div className="flex flex-wrap gap-x-12 gap-y-4 px-8">
             <Link href={withMode("/")} onClick={() => setOpen(false)} className="text-text-brand underline">
               Home
             </Link>
@@ -91,7 +91,7 @@ export function ProtoControls() {
               </Link>
             )}
           </div>
-          <p className="pt-3 text-[12px] leading-4 text-text-weaker">
+          <p className="pt-12 text-text-weaker">
             Tips: any other details show the not-found error. Type “ERROR” in Address to simulate a save failure.
           </p>
         </div>
@@ -102,9 +102,9 @@ export function ProtoControls() {
         aria-expanded={open}
         aria-controls="proto-controls"
         aria-label="Prototype controls"
-        className="shadow-overlay rounded-full bg-text-strong px-2.5 py-1 text-[11px] leading-4 font-semibold text-text-inverse"
+        className="type-uppercase rounded-full bg-fill-brand-strong px-8 py-4 normal-case text-text-inverse-strong shadow-overlay"
       >
-        {open ? "Close" : `Controls · ${mode === "full" ? "Full" : "No change"}`}
+        {open ? "Close" : mode === "full" ? "Controls · Full" : "Controls"}
       </button>
     </div>
   );

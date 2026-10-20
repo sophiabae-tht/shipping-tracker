@@ -6,7 +6,7 @@ import { Button } from "@/components/Button";
 import { ErrorBanner, HavingTrouble, Modal } from "@/components/Feedback";
 import { Input, Select } from "@/components/Field";
 import { Header } from "@/components/Header";
-import { BodyCopy, FullScreenMessage, PageHeading, StickyFooter } from "@/components/Screen";
+import { BodyCopy, FORM_COLUMN, FullScreenMessage, PageHeading, StickyFooter } from "@/components/Screen";
 import {
   MOCK_DELAY_MS,
   US_STATES,
@@ -36,11 +36,11 @@ function Suggestions({
   onClose: () => void;
 }) {
   return (
-    <div className="absolute inset-x-4 top-full z-20 mt-2">
-      <div className="shadow-overlay overflow-hidden rounded-2xl bg-bg-raised">
-        <div className="flex items-center justify-between px-4 pt-4 pb-2">
-          <p className="t-tiny-bold text-text-weak">Suggestions</p>
-          <button type="button" onClick={onClose} aria-label="Close suggestions" className="-m-1 p-1">
+    <div className="absolute inset-x-16 top-full z-20 mt-8">
+      <div className="overflow-hidden rounded-16 bg-background-raised shadow-overlay">
+        <div className="flex items-center justify-between px-16 pt-16 pb-8">
+          <p className="type-tiny-bold text-text-weak">Suggestions</p>
+          <button type="button" onClick={onClose} aria-label="Close suggestions" className="-m-4 p-4">
             <img src="/figma/close.svg" alt="" width={24} height={24} />
           </button>
         </div>
@@ -55,16 +55,16 @@ function Suggestions({
                   // Keep focus on the input until the pick lands.
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => onPick(s)}
-                  className="block w-full truncate p-4 text-left text-[16px] leading-6 hover:bg-fill-weaker"
+                  className="type-small-regular block w-full truncate p-16 text-left hover:bg-fill-weaker"
                 >
-                  <span className="font-semibold text-text-strong">{typed}</span>
-                  <span className="font-medium text-text-weak">{label.slice(typed.length)}</span>
+                  <span className="font-mid text-text-strong">{typed}</span>
+                  <span className="font-weak text-text-weak">{label.slice(typed.length)}</span>
                 </button>
               </li>
             );
           })}
         </ul>
-        <p className="t-tiny-bold bg-fill-weaker p-4 text-text-weak">Powered by Google</p>
+        <p className="type-tiny-bold bg-fill-weaker p-16 text-text-weak">Powered by Google</p>
       </div>
     </div>
   );
@@ -152,7 +152,7 @@ function AddressEdit() {
   return (
     <>
       <Header backHref={statusHref} />
-      <main className="flex flex-1 flex-col">
+      <main className={FORM_COLUMN}>
         <PageHeading title="Update your shipping address" topSpacer>
           <BodyCopy>We’ll send your phone to this address.</BodyCopy>
           <BodyCopy>Use a residential (home) address - no PO Boxes or business addresses.</BodyCopy>
@@ -219,7 +219,7 @@ function AddressEdit() {
 
         {(zipError || saveFailed) && <HavingTrouble />}
 
-        <div className="h-6" />
+        <div className="h-24" />
         <StickyFooter>
           <Button onClick={onUpdate} disabled={!complete}>
             Update address
@@ -229,7 +229,7 @@ function AddressEdit() {
 
       <Modal
         open={confirming}
-        icon="/figma/check-circle.svg"
+        icon="/figma/warning.svg"
         title="Confirm your new address"
         actions={
           <>
@@ -240,20 +240,20 @@ function AddressEdit() {
           </>
         }
       >
-        <p className="t-small px-4 pt-2 text-text-weak">
+        <p className="type-small-regular px-16 pt-8 text-text-weak">
           We found a more precise address. Please review and confirm your recommended address below.
         </p>
-        <div className="t-small px-4 pt-4 text-text-weak">
-          <p className="font-semibold text-text-strong">You entered</p>
+        <div className="type-small-regular px-16 pt-16 text-text-weak">
+          <p className="font-strong text-text-strong">You entered</p>
           <p>{enteredStreet}</p>
           <p>{enteredCity}</p>
         </div>
-        <div className="t-small px-4 pt-4 text-text-weak">
-          <p className="font-semibold text-text-strong">Recommended</p>
+        <div className="type-small-regular px-16 pt-16 text-text-weak">
+          <p className="font-strong text-text-strong">Recommended</p>
           <p>{recStreet}</p>
           <p>{recCity}</p>
         </div>
-        <div className="h-4" />
+        <div className="h-16" />
       </Modal>
     </>
   );

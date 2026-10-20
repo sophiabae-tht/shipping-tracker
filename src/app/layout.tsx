@@ -18,11 +18,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://api.fontshare.com" />
-        <link
-          rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap"
-        />
+        {/* fontFamily/heading + fontFamily/body: General Sans Medium + Semibold, self-hosted (see src/styles/tokens.css). */}
+        <link rel="preload" href="/figma/fonts/GeneralSans-Medium.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+        <link rel="preload" href="/figma/fonts/GeneralSans-Semibold.otf" as="font" type="font/otf" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"
@@ -30,7 +28,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         <AddressStoreProvider>
-          <div className="relative mx-auto flex min-h-dvh w-full max-w-[420px] flex-col bg-bg-base">
+          <div className="relative flex min-h-dvh w-full flex-col bg-background-base">
             {children}
           </div>
           <Suspense>

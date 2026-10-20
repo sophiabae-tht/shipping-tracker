@@ -1,0 +1,103 @@
+{
+  "$source": "Figma file xEiMTQYPgWR3y8P51p6BI4 (Shipping) — variables resolved from the journey frames via get_variable_defs / Plugin API, default mode.",
+  "$generatedBy": "Run `npm run tokens` after editing to regenerate src/styles/tokens.css.",
+  "colorsSemantic": {
+    "background/base": "#f9f9fb",
+    "background/raised": "#ffffff",
+    "background/sunken": "#ecedf3",
+
+    "text/strong": "#1f2247",
+    "text/weak": "#565a86",
+    "text/weaker": "#696d9b",
+    "text/brand": "#4754eb",
+    "text/error": "#c01c1c",
+    "text/inverseStrong": "#ffffff",
+    "text/inverseWeak": "#ffffffb2",
+
+    "icon/strong": "#1f2247",
+    "icon/weak": "#565a86",
+    "icon/weaker": "#8b8eb1",
+    "icon/disabled": "#d0d3e1",
+    "icon/brand": "#4754eb",
+    "icon/error": "#d93636",
+    "icon/success": "#7fc54d",
+    "icon/inverseStrong": "#ffffff",
+
+    "stroke/weak": "#0d11401a",
+    "stroke/weaker": "#0c0f410d",
+    "stroke/mid": "#696d9b",
+    "stroke/brandStrong": "#4754eb",
+    "stroke/selected": "#4754eb",
+    "stroke/errorStrong": "#d93636",
+
+    "fill/weaker": "#0c0f410d",
+    "fill/disabled": "#0f123e26",
+    "fill/brandStrong": "#4754eb",
+    "fill/brandMid": "#6773ee",
+    "fill/brandWeaker": "#eef0fb",
+    "fill/accentStrong": "#a4ecbb",
+    "fill/errorWeak": "#d9363612",
+    "fill/successWeak": "#e9f3e2",
+    "fill/warningWeak": "#faece0",
+    "fill/overlayStrong": "#15173880",
+    "fill/inverseWeaker": "#ffffff4d",
+    "fill/hoverLight": "#ffffff1a",
+
+    "illo/brandDark": "#27319b",
+    "illo/brandMid": "#6773ee",
+    "illo/brandMidWeak": "#b1bbec",
+    "illo/brandWeak": "#d9e1f7",
+    "illo/brandWeaker": "#eef0fb",
+    "illo/accentMid": "#a4ecbb",
+
+    "effects/dropShadow/weak": "#0d11401a",
+    "effects/dropShadow/weaker": "#0c0f410d"
+  },
+  "spacing": {
+    "spacing/0": 0,
+    "spacing/4": 4,
+    "spacing/8": 8,
+    "spacing/12": 12,
+    "spacing/16": 16,
+    "spacing/20": 20,
+    "spacing/24": 24,
+    "spacing/32": 32,
+    "spacing/48": 48,
+    "spacing/64": 64,
+    "spacing/128": 128,
+    "cornerRadius/16": 16
+  },
+  "typography": {
+    "fontFamily/heading": "General Sans Variable",
+    "fontFamily/body": "General Sans Variable",
+    "fontWeight/weak": 500,
+    "fontWeight/mid": 600,
+    "fontWeight/strong": 620,
+    "fontSize/heading3": 24,
+    "fontSize/heading4": 20,
+    "fontSize/small": 16,
+    "fontSize/tiny": 14,
+    "fontSize/uppercase": 11,
+    "lineHeight/heading3": 32,
+    "lineHeight/heading4": 28,
+    "lineHeight/small": 24,
+    "lineHeight/tiny": 20,
+    "lineHeight/uppercase": 14
+  },
+  "textStyles": {
+    "Heading 3/Bold": { "family": "fontFamily/heading", "size": "fontSize/heading3", "lineHeight": "lineHeight/heading3", "weight": "fontWeight/strong", "letterSpacing": 0 },
+    "Heading 4/Bold": { "family": "fontFamily/heading", "size": "fontSize/heading4", "lineHeight": "lineHeight/heading4", "weight": "fontWeight/strong", "letterSpacing": 0 },
+    "Small/Regular": { "family": "fontFamily/body", "size": "fontSize/small", "lineHeight": "lineHeight/small", "weight": "fontWeight/weak", "letterSpacing": 0 },
+    "Small/Bold": { "family": "fontFamily/body", "size": "fontSize/small", "lineHeight": "lineHeight/small", "weight": "fontWeight/strong", "letterSpacing": 0 },
+    "Tiny/Regular": { "family": "fontFamily/body", "size": "fontSize/tiny", "lineHeight": "lineHeight/tiny", "weight": "fontWeight/weak", "letterSpacing": 0 },
+    "Tiny/Bold": { "family": "fontFamily/body", "size": "fontSize/tiny", "lineHeight": "lineHeight/tiny", "weight": "fontWeight/mid", "letterSpacing": 0 },
+    "UPPERCASE": { "family": "fontFamily/heading", "size": "fontSize/uppercase", "lineHeight": "lineHeight/uppercase", "weight": "fontWeight/strong", "letterSpacing": 0.3, "textTransform": "uppercase" }
+  },
+  "effectStyles": {
+    "raised": [{ "x": 0, "y": 2, "blur": 8, "spread": 0, "color": "effects/dropShadow/weaker" }],
+    "overlay": [
+      { "x": 0, "y": 8, "blur": 8, "spread": -4, "color": "effects/dropShadow/weaker" },
+      { "x": 0, "y": 20, "blur": 24, "spread": -4, "color": "effects/dropShadow/weak" }
+    ]
+  }
+}

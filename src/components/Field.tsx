@@ -4,37 +4,41 @@ import { forwardRef, useId, useState } from "react";
 
 type MessageProps = { hint?: string; error?: string; id: string };
 
-/** Hint (info icon) or error (warning icon) line under a field. */
+/** Hint (Info icon) or error (WarningCircle icon) line under a field. */
 function FieldMessage({ hint, error, id }: MessageProps) {
   if (!hint && !error) return null;
   return (
-    <div id={id} className="flex items-center gap-2 px-4 pt-2">
+    <div id={id} className="flex items-center gap-8 px-16 pt-8">
       <img src={error ? "/figma/warning-small.svg" : "/figma/info.svg"} alt="" width={16} height={16} className="shrink-0" />
-      <p className={`t-tiny flex-1 ${error ? "text-text-error" : "text-text-weak"}`}>{error ?? hint}</p>
+      <p className={`type-tiny-regular flex-1 ${error ? "text-text-error" : "text-text-weak"}`}>{error ?? hint}</p>
     </div>
   );
 }
 
+// textInput: stroke/weak 1px at rest, stroke/brandStrong 2px when focused, stroke/errorStrong 2px + fill/errorWeak on error.
+// Strokes are drawn as inset shadows so the 1px -> 2px change doesn't shift layout.
 function boxClasses(focused: boolean, error?: string) {
-  const base = "relative flex h-16 w-full items-center rounded-2xl px-4 transition-shadow";
-  if (error) return `${base} bg-fill-error-weak shadow-[inset_0_0_0_2px_var(--color-stroke-error)]`;
-  if (focused) return `${base} bg-bg-raised shadow-[inset_0_0_0_2px_var(--color-brand)]`;
-  return `${base} bg-bg-raised shadow-[inset_0_0_0_1px_var(--color-stroke-weak)]`;
+  const base = "relative flex h-[64px] w-full items-center rounded-16 px-16 transition-shadow";
+  if (error) return `${base} bg-fill-error-weak shadow-[inset_0_0_0_2px_var(--color-stroke-error-strong)]`;
+  if (focused) return `${base} bg-background-raised shadow-[inset_0_0_0_2px_var(--color-stroke-brand-strong)]`;
+  return `${base} bg-background-raised shadow-[inset_0_0_0_1px_var(--color-stroke-weak)]`;
 }
 
-/** Floating label: 16px placeholder when empty, 14px label above the value once filled or focused. */
+/** Empty: Small/Regular placeholder (py spacing/20). Filled or focused: Tiny/Regular label above the value (py 10). */
 function FloatingLabel({ htmlFor, label, raised }: { htmlFor: string; label: string; raised: boolean }) {
   return (
     <label
       htmlFor={htmlFor}
-      className={`pointer-events-none absolute left-4 text-text-weaker transition-all ${
-        raised ? "top-[10px] t-tiny" : "top-5 t-small"
+      className={`pointer-events-none absolute left-16 text-text-weaker transition-all ${
+        raised ? "top-[10px] type-tiny-regular" : "top-20 type-small-regular"
       }`}
     >
       {label}
     </label>
   );
 }
+
+const fieldText = "type-small-regular h-full min-w-0 flex-1 bg-transparent pt-[30px] pb-[10px] outline-none";
 
 type InputProps = {
   label: string;
@@ -52,7 +56,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   const [focused, setFocused] = useState(false);
   const raised = focused || value.length > 0;
   return (
-    <div className={`w-full px-4 pt-4 ${className}`}>
+    <div className={`w-full px-16 pt-16 ${className}`}>
       <div className={boxClasses(focused, error)}>
         <FloatingLabel htmlFor={id} label={label} raised={raised} />
         <input
@@ -61,7 +65,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           value={value}
           aria-invalid={!!error}
           aria-describedby={hint || error ? `${id}-msg` : undefined}
-          className="t-small h-full min-w-0 flex-1 bg-transparent pt-[30px] pb-[10px] text-text-strong outline-none"
+          className={`${fieldText} text-text-strong`}
           onFocus={(e) => {
             setFocused(true);
             onFocus?.(e);
@@ -72,7 +76,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           }}
           {...rest}
         />
-        {icon && <img src={icon} alt="" width={24} height={24} className="ml-2 shrink-0" />}
+        {icon && <img src={icon} alt="" width={24} height={24} className="ml-8 shrink-0" />}
       </div>
       <FieldMessage id={`${id}-msg`} hint={hint} error={error} />
     </div>
@@ -93,7 +97,7 @@ export function Select({ label, options, hint, error, value, onChange, onBlur }:
   const id = useId();
   const [focused, setFocused] = useState(false);
   return (
-    <div className="w-full px-4 pt-4">
+    <div className="w-full px-16 pt-16">
       <div className={boxClasses(focused, error)}>
         <FloatingLabel htmlFor={id} label={label} raised={value.length > 0} />
         <select
@@ -107,9 +111,7 @@ export function Select({ label, options, hint, error, value, onChange, onBlur }:
             setFocused(false);
             onBlur?.();
           }}
-          className={`t-small h-full min-w-0 flex-1 cursor-pointer appearance-none bg-transparent pt-[30px] pb-[10px] outline-none ${
-            value ? "text-text-strong" : "text-transparent"
-          }`}
+          className={`${fieldText} cursor-pointer appearance-none ${value ? "text-text-strong" : "text-transparent"}`}
         >
           <option value="" disabled hidden />
           {options.map((o) => (
@@ -118,7 +120,7 @@ export function Select({ label, options, hint, error, value, onChange, onBlur }:
             </option>
           ))}
         </select>
-        <img src="/figma/caret-down.svg" alt="" width={16} height={16} className="pointer-events-none ml-2 shrink-0" />
+        <img src="/figma/caret-down.svg" alt="" width={16} height={16} className="pointer-events-none ml-8 shrink-0" />
       </div>
       <FieldMessage id={`${id}-msg`} hint={hint} error={error} />
     </div>
