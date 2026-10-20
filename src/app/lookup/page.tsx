@@ -58,9 +58,9 @@ function Lookup() {
 
   // Validate a field when the member leaves it, but only once they've typed something,
   // except the plan select, which they can skip past.
-  const blurCheck = (key: keyof Form) => {
-    if (key !== "plan" && !form[key]) return;
-    const fieldError = validate(form)[key];
+  const blurCheck = (key: keyof Form, value = form[key]) => {
+    if (key !== "plan" && !value) return;
+    const fieldError = validate({ ...form, [key]: value })[key];
     if (fieldError) setErrors((e) => ({ ...e, [key]: fieldError }));
   };
 
@@ -153,7 +153,7 @@ function Lookup() {
                 options={HEALTH_PLANS}
                 value={form.plan}
                 onChange={(v) => update("plan", v)}
-                onBlur={() => blurCheck("plan")}
+                onBlur={(v) => blurCheck("plan", v)}
                 error={errors.plan}
               />
               <Input
