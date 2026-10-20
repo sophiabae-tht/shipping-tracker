@@ -4,8 +4,8 @@ import { PrototypeLabel } from "./Screen";
 /**
  * Responsive page frame.
  * Mobile: the 360px Shipping frames (topAppBar, full-bleed content, sticky footer buttons).
- * md+: the Enrollment desktop layout: background/sunken page with gradientBG, webHeaderDesktop,
- * and centered cards (main 480px; on lg an optional 352px side card, 24px apart).
+ * web+: the Enrollment desktop layout: background/sunken page with gradientBG, webHeaderDesktop,
+ * and centered cards (main 480px; on split an optional 352px side card, 24px apart).
  */
 export function PageShell({
   backHref,
@@ -17,23 +17,23 @@ export function PageShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative isolate flex flex-1 flex-col md:bg-background-sunken">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden overflow-hidden md:block">
+    <div className="relative isolate flex flex-1 flex-col web:bg-background-sunken">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden overflow-hidden web:block">
         <img src="/figma/web-gradient-green.svg" alt="" className="absolute top-[-37px] right-[-284px] size-[1024px] max-w-none" />
         <img src="/figma/web-gradient-blue.svg" alt="" className="absolute top-[269px] left-[-397px] size-[1024px] max-w-none" />
       </div>
       <Header backHref={backHref} onBack={onBack} />
-      <main className="flex flex-1 flex-col md:flex-none md:items-center md:gap-24 md:px-24 md:pb-40 lg:flex-row lg:items-start lg:justify-center">
+      <main className="flex flex-1 flex-col web:flex-none web:items-center web:gap-24 web:px-24 web:pb-40 split:flex-row split:items-start split:justify-center">
         {children}
       </main>
-      <div className="mt-auto hidden md:block">
+      <div className="mt-auto hidden web:block">
         <PrototypeLabel />
       </div>
     </div>
   );
 }
 
-/** maxWidth card (480px, fill/inverseWeak, radius 24). Holds the back arrow row on md+. */
+/** maxWidth card (480px, fill/inverseWeak, radius-24). Holds the back arrow row on web+. */
 export function PageCard({
   backHref,
   onBack,
@@ -47,11 +47,11 @@ export function PageCard({
 }) {
   return (
     <div
-      className={`flex flex-1 flex-col md:w-[480px] md:flex-none md:rounded-[24px] md:bg-fill-inverse-weak md:px-24 md:pt-8 md:pb-40 ${className}`}
+      className={`flex flex-1 flex-col web:w-full web:max-w-[480px] web:flex-none split:w-[480px] web:rounded-24 web:bg-fill-inverse-weak web:px-24 web:pt-8 web:pb-40 ${className}`}
     >
       {(backHref || onBack) && (
         // progressBarFrame without the progress bar: the shipping flow has no steps.
-        <div className="hidden h-48 items-center gap-16 px-16 pt-24 md:flex">
+        <div className="hidden h-48 items-center gap-16 px-16 pt-24 web:flex">
           <BackLink backHref={backHref} onBack={onBack} />
         </div>
       )}
@@ -63,7 +63,7 @@ export function PageCard({
 /** Side maxWidth card (352px, fill/inverseWeaker, radius 24) used next to the main card on desktop. */
 export function SideCard({ children }: { children: React.ReactNode }) {
   return (
-    <aside className="md:w-[480px] md:rounded-[24px] md:bg-fill-inverse-weaker md:px-24 md:pt-24 md:pb-40 lg:w-[352px]">
+    <aside className="web:w-full web:max-w-[480px] web:rounded-24 web:bg-fill-inverse-weaker web:px-24 web:pt-24 web:pb-40 split:w-[352px] split:max-w-none">
       {children}
     </aside>
   );

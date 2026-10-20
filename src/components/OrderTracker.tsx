@@ -84,7 +84,7 @@ export function OrderTracker({ status, showAddress = false, addressLines = [], o
                   <button
                     type="button"
                     onClick={onChangeAddress}
-                    className="type-tiny-bold w-full rounded-12 md:max-w-[290px] border border-stroke-brand-strong px-12 py-[6px] text-text-brand hover:bg-fill-weaker"
+                    className="type-tiny-bold w-full rounded-12 web:max-w-[290px] border border-stroke-brand-strong px-12 py-[6px] text-text-brand hover:bg-fill-weaker"
                   >
                     Change address
                   </button>

@@ -20,14 +20,24 @@ const FAQS = [
   "How do I apply for Lifeline?",
 ];
 
+// This screen stands in for the www.thrivemobile.com homepage: everything except "Order Status"
+// (the entry point to this prototype) links to the live site.
+const SITE = "https://www.thrivemobile.com";
+
 function FooterLink({ children, href }: { children: React.ReactNode; href?: string }) {
   const cls = "type-tiny-regular block px-16 pt-12 text-text-inverse-strong";
-  return href ? (
+  if (!href) return <span className={cls}>{children}</span>;
+  if (href.startsWith("http")) {
+    return (
+      <a href={href} className={`${cls} underline-offset-2 hover:underline`}>
+        {children}
+      </a>
+    );
+  }
+  return (
     <Link href={href} className={`${cls} underline-offset-2 hover:underline`}>
       {children}
     </Link>
-  ) : (
-    <span className={cls}>{children}</span>
   );
 }
 
@@ -66,25 +76,29 @@ function EntryHome() {
       <footer className="bg-illo-brand-mid p-32">
         <div className="mx-auto flex w-full max-w-[576px] flex-col lg:max-w-[1040px]">
           <div className="flex items-start justify-between pt-16">
-            <div className="px-16">
+            <a href={SITE} className="px-16">
               <img src="/figma/logo-symbol-white.svg" alt="Thrive Mobile" width={38} height={38} />
-            </div>
+            </a>
             <div className="flex items-center gap-16 px-16">
               <a href={SUPPORT_PHONE_TEL} aria-label="Call Thrive Mobile">
                 <img src="/figma/phone.svg" alt="" width={24} height={24} />
               </a>
               <img src="/figma/envelope.svg" alt="" width={24} height={24} />
-              <img src="/figma/facebook.svg" alt="" width={24} height={24} />
-              <img src="/figma/linkedin.svg" alt="" width={24} height={24} />
+              <a href="https://www.facebook.com/profile.php?id=61570914966892" aria-label="Thrive Mobile on Facebook">
+                <img src="/figma/facebook.svg" alt="" width={24} height={24} />
+              </a>
+              <a href="https://www.linkedin.com/company/thrive-mobile-co/" aria-label="Thrive Mobile on LinkedIn">
+                <img src="/figma/linkedin.svg" alt="" width={24} height={24} />
+              </a>
             </div>
           </div>
           <div className="h-32" />
           <nav className="flex flex-col gap-48 py-16 md:grid md:grid-cols-3 md:gap-32" aria-label="Footer">
             <div>
               <FooterHeader>Product</FooterHeader>
-              <FooterLink>Wireless plans</FooterLink>
-              <FooterLink>Network Coverage</FooterLink>
-              <FooterLink>FAQ</FooterLink>
+              <FooterLink href={`${SITE}/plans`}>Wireless plans</FooterLink>
+              <FooterLink href={`${SITE}/coverage`}>Network Coverage</FooterLink>
+              <FooterLink href={`${SITE}/faq`}>FAQ</FooterLink>
               <FooterLink href={href("/lookup")}>Order Status</FooterLink>
             </div>
             <div>
@@ -102,10 +116,10 @@ function EntryHome() {
             </div>
             <div>
               <FooterHeader>Legal</FooterHeader>
-              <FooterLink>Privacy Policy</FooterLink>
-              <FooterLink>Terms &amp; Conditions</FooterLink>
-              <FooterLink>Transparency Policy</FooterLink>
-              <FooterLink>Accessibility Policy</FooterLink>
+              <FooterLink href={`${SITE}/policy/privacy-policy`}>Privacy Policy</FooterLink>
+              <FooterLink href={`${SITE}/policy/terms-conditions`}>Terms &amp; Conditions</FooterLink>
+              <FooterLink href={`${SITE}/policy/transparency-policy`}>Transparency Policy</FooterLink>
+              <FooterLink href={`${SITE}/policy/accessibility-policy`}>Accessibility Policy</FooterLink>
             </div>
           </nav>
           <div className="h-32" />

@@ -220,7 +220,7 @@ function AddressEdit() {
 
           {(zipError || saveFailed) && <HavingTrouble />}
 
-          <div className="h-24 md:hidden" />
+          <div className="h-24 web:hidden" />
           <StickyFooter>
             <Button onClick={onUpdate} disabled={!complete}>
               Update address
@@ -243,7 +243,7 @@ function AddressEdit() {
         }
       >
         <p className="type-small-regular px-16 pt-8 text-text-weak">
-          We found a more precise address. Please review and confirm your recommended address below.
+          We found a more precise address. Please review and confirm our recommended address below.
         </p>
         <div className="type-small-regular px-16 pt-16 text-text-weak">
           <p className="font-strong text-text-strong">You entered</p>

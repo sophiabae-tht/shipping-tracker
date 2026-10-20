@@ -2,6 +2,17 @@
 /* Figma variables, text styles and effect styles (generated: `npm run tokens`). */
 @import "../styles/tokens.css";
 
+/*
+ * Layout breakpoints (not Figma variables):
+ * web   481px: matches enroll.thrivemobile.com, which switches from the phone layout to the
+ *              header + centered-card layout above 480px. Tablet and desktop share it.
+ * split 904px: the status page's 480px card + 24px gap + 352px side card fit side by side.
+ */
+@theme {
+  --breakpoint-web: 30.0625rem;
+  --breakpoint-split: 56.5rem;
+}
+
 html,
 body {
   background: var(--color-background-sunken);

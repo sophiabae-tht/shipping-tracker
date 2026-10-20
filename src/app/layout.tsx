@@ -18,9 +18,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <head>
-        {/* fontFamily/heading + fontFamily/body: General Sans Medium + Semibold, self-hosted (see src/styles/tokens.css). */}
-        <link rel="preload" href="/figma/fonts/GeneralSans-Medium.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-        <link rel="preload" href="/figma/fonts/GeneralSans-Semibold.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+        {/* fontFamily/heading + fontFamily/body: variable General Sans, same file as enroll.thrivemobile.com. */}
+        <link rel="preload" href="/fonts/GeneralSans-Variable.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"

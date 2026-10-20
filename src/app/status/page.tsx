@@ -50,7 +50,7 @@ function copyFor(member: Member, fullMode: boolean): Copy {
   }
   const copy: Record<Exclude<Status, "ordered">, Copy> = {
     preparingToShip: {
-      title: "We’re getting your phone ready to ship.",
+      title: "We're getting your phone ready to ship.",
       subline: "We’ll send you tracking information once your order has shipped.",
       sublineStyle: "body",
       note: (
@@ -215,7 +215,7 @@ function StatusPage() {
 
         <SideCard>
           {/* The card edge replaces the first divider on tablet and desktop. */}
-          <div className="px-16 pt-16 md:[&>div]:border-t-0">
+          <div className="px-16 pt-16 web:[&>div]:border-t-0">
             <Accordion title="Order details" open={detailsOpen} onToggle={() => setDetailsOpen((v) => !v)}>
               <OrderDetails />
             </Accordion>
@@ -251,8 +251,8 @@ function StatusPage() {
               Not your contact info? Call us at <CallLink />
             </p>
           </section>
-          <div className={`md:hidden ${toastOpen ? "h-[224px]" : "h-[40px]"}`} />
-          <div className="md:hidden">
+          <div className={`web:hidden ${toastOpen ? "h-[224px]" : "h-[40px]"}`} />
+          <div className="web:hidden">
           <PrototypeLabel />
           </div>
         </SideCard>

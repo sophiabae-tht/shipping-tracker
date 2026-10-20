@@ -81,7 +81,7 @@ export function Modal({
   }, [open]);
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-40 flex flex-col justify-end px-16 py-[40px] md:items-center md:justify-center">
+    <div className="fixed inset-0 z-40 flex flex-col justify-end px-16 py-[40px] web:items-center web:justify-center">
       <div className="absolute inset-0 bg-fill-overlay-strong" aria-hidden />
       <div
         ref={ref}
@@ -89,7 +89,7 @@ export function Modal({
         aria-modal="true"
         aria-labelledby="modal-title"
         tabIndex={-1}
-        className="relative mx-auto max-h-full w-full max-w-[420px] overflow-y-auto rounded-16 bg-background-raised p-8 outline-none md:w-[424px] md:max-w-none md:p-24"
+        className="relative mx-auto max-h-full w-full max-w-[420px] overflow-y-auto rounded-16 bg-background-raised p-8 outline-none web:w-[424px] web:max-w-none web:p-24"
       >
         <div className="px-16 pt-16">
           <div className="inline-flex">
@@ -110,7 +110,7 @@ export function Modal({
 /** toast (overlay effect style), pinned to the bottom of the screen; dismissible. */
 export function Toast({ title, children, onClose }: { title: string; children: React.ReactNode; onClose: () => void }) {
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto max-w-[420px] px-16 pb-[40px] lg:right-24 lg:left-auto lg:mx-0 lg:w-[420px] lg:pb-24">
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto max-w-[420px] px-16 pb-[40px] split:right-24 split:left-auto split:mx-0 split:w-[420px] split:pb-24">
       <div role="status" className="pointer-events-auto rounded-16 bg-background-raised p-8 shadow-overlay">
         <div className="flex items-start justify-between px-16 pt-16">
           <IconContainer icon="/figma/check-success.svg" tone="success" />

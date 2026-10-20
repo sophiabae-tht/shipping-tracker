@@ -52,12 +52,19 @@ Address flow test hooks: Dallas + TX with ZIP `40202` triggers the ZIP error; an
 
 ## Design tokens
 
-Colors, spacing, radii, typography and shadows are imported from the Figma file's variables
-(`colorsSemantic`, `spacing`, `typography` collections) plus its text and effect styles.
+Two token sources feed `npm run tokens`, which regenerates `src/styles/tokens.css` (a Tailwind `@theme`):
 
-- `design-tokens/figma-variables.json`: the imported variables, using their Figma names.
-- `npm run tokens`: regenerates `src/styles/tokens.css` (a Tailwind `@theme`).
-- Tailwind's default palette, spacing, radii and shadows are turned off, so only Figma tokens can be used.
+- `design-tokens/figma-variables.json`: the Figma file's variables (`colorsSemantic`, `spacing`, `typography`),
+  text styles and effect styles. Figma wins where both sources define a token.
+- `design-tokens/live-enroll-tokens.json`: tokens from enroll.thrivemobile.com's production CSS: the primitive
+  palette (`blue-gray-*`, `neon-blue-*`, …), 22 extra semantic colors (e.g. `text/disabled`, `stroke/focus`,
+  `icon/warning`), weights `light` 300 · `medium` 500 · `semibold` 600 · `bold` 700, radii 8 · 20 · 24, spacing 96.
+
+Font weights are identical in both (`weak` 500, `mid` 600, `strong` 620; the build fails if they ever differ).
+The font is the live site's variable General Sans (`public/fonts/GeneralSans-Variable.ttf`), so 620 renders as a
+true 620 like production.
+
+Tailwind's default palette, spacing, radii and shadows are turned off, so only these tokens can be used.
 
 | Figma | Class |
 |---|---|
@@ -67,6 +74,5 @@ Colors, spacing, radii, typography and shadows are imported from the Figma file'
 | `Small/Bold`, `Heading 4/Bold`, `UPPERCASE` | `type-small-bold`, `type-heading4-bold`, `type-uppercase` |
 | `raised`, `overlay` effects | `shadow-raised`, `shadow-overlay` |
 
-Icons and illustrations in `public/figma/` are exported from the file. Fonts are the design's General Sans
-Medium and Semibold OTFs (`public/figma/fonts/`), registered as "General Sans Web" so a locally installed copy
-of General Sans can't override them.
+Icons and illustrations in `public/figma/` are exported from the file. The font is registered as "General Sans Web" so a
+locally installed copy of General Sans can't override it.

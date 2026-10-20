@@ -38,14 +38,14 @@ function HelpAndLanguage() {
 }
 
 /**
- * Mobile (< md): topAppBar from the Shipping file: back arrow + help/language.
- * Tablet and desktop (md+): webHeaderDesktop from the Enrollment file: wordmark + help/language;
+ * Mobile (< web): topAppBar from the Shipping file: back arrow + help/language.
+ * Tablet and desktop (web+): webHeaderDesktop from the Enrollment file: wordmark + help/language;
  * the back arrow moves into the top of the page card (see PageCard).
  */
 export function Header({ backHref, onBack }: { backHref?: string; onBack?: () => void }) {
   return (
     <>
-      <header className="sticky top-0 z-20 bg-background-base md:hidden">
+      <header className="sticky top-0 z-20 bg-background-base web:hidden">
         <div className="flex h-[56px] w-full items-center gap-16 p-16">
           <div className="flex flex-1 items-center gap-16">
             <BackLink backHref={backHref} onBack={onBack} />
@@ -53,7 +53,7 @@ export function Header({ backHref, onBack }: { backHref?: string; onBack?: () =>
           <HelpAndLanguage />
         </div>
       </header>
-      <header className="relative z-20 hidden h-[96px] items-center justify-between px-56 pt-8 md:flex">
+      <header className="relative z-20 hidden h-[96px] items-center justify-between px-20 pt-8 web:flex min-[600px]:px-56">
         <Link href="/" className="flex items-center gap-[15.647px]" aria-label="Thrive Mobile home">
           <span className="pb-[2.235px]">
             <img src="/figma/logo-symbol.svg" alt="" width={35.765} height={35.765} />

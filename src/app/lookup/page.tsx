@@ -134,7 +134,7 @@ function Lookup() {
               error={errors.plan}
             />
             <Input
-              label="Member ID"
+              label="Health plan member ID"
               autoCapitalize="characters"
               value={form.memberId}
               onChange={(e) => update("memberId", e.target.value.toUpperCase())}
@@ -164,7 +164,7 @@ function Lookup() {
             </InfoCard>
           )}
 
-          <div className="h-24 md:hidden" />
+          <div className="h-24 web:hidden" />
           <StickyFooter>
             <Button onClick={onNext} disabled={!complete}>
               Next
