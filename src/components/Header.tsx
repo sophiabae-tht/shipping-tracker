@@ -40,7 +40,7 @@ function HelpAndLanguage() {
 /**
  * Mobile (< web): topAppBar from the Shipping file: back arrow + help/language.
  * Tablet and desktop (web+): webHeaderDesktop from the Enrollment file: wordmark + help/language;
- * the back arrow moves into the top of the page card (see PageCard).
+ * there is no back arrow on larger screens.
  */
 export function Header({ backHref, onBack }: { backHref?: string; onBack?: () => void }) {
   return (
@@ -68,4 +68,3 @@ export function Header({ backHref, onBack }: { backHref?: string; onBack?: () =>
   );
 }
 
-export { BackLink };

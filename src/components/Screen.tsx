@@ -48,6 +48,12 @@ export function StickyFooter({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** How long the loading message takes to fade out before the next page enters (matches .screen-exit). */
+export const SCREEN_EXIT_MS = 220;
+
+/** Classes for the card holding a loading message: fade in, then fade out (with its card) when leaving. */
+export const loadingCardMotion = (leaving: boolean) => (leaving ? "screen-exit" : "screen-fade-in");
+
 /** fullScreenMessage: centered illustration + message used for loading states. */
 export function FullScreenMessage({ title, body }: { title: string; body: string }) {
   return (

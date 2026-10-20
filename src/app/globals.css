@@ -18,6 +18,12 @@ body {
   background: var(--color-background-sunken);
 }
 
+/* Tailwind v4 resets buttons to the default cursor; every enabled button here is clickable. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
 body {
   color: var(--color-text-strong);
   font-family: var(--font-body);
@@ -42,8 +48,179 @@ body {
   animation: loading-pulse 1.2s ease-in-out infinite;
 }
 
+/*
+ * Screen transitions: the loading message fades out (220ms, SCREEN_EXIT_MS), then the next page's card rises
+ * in (ease-out). On desktop the side card follows 80ms behind. The header and background stay put.
+ */
+.screen-fade-in {
+  animation: screen-fade-in 250ms ease-out both;
+}
+
+.screen-exit {
+  animation: screen-exit 220ms ease-in both;
+}
+
+.screen-enter {
+  animation: screen-enter 450ms var(--ease-out-expo) both;
+}
+
+.screen-enter-late {
+  animation-delay: 80ms;
+}
+
+@keyframes screen-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes screen-exit {
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+}
+
+@keyframes screen-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/*
+ * orderTracker motion (timeline in src/components/OrderTracker.tsx; each element gets an animation-delay).
+ * Every element's resting style is its FINAL state; the keyframes play from the earlier state, and
+ * `both` fill holds that earlier state until the element's delay. So reduced motion = the end result.
+ */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Grey dot shown until the step is reached. */
+.tracker-dot {
+  opacity: 0;
+  animation: tracker-fade-out 150ms ease-out both;
+}
+
+/* Thrive logo grows out from its center. */
+.tracker-arrive {
+  transform-origin: center;
+  animation: tracker-grow 400ms var(--ease-out-expo) both;
+}
+
+/* Halo ring pulsing out from the current logo, like the reference GIF (1.8s loop). */
+.tracker-halo {
+  opacity: 0;
+  transform-origin: center;
+  animation: tracker-pulse 1800ms var(--ease-out-expo) infinite both;
+}
+
+/* Logo + halo leave as the check pops in. */
+.tracker-leave {
+  opacity: 0;
+  animation: tracker-fade-out 180ms ease-out both;
+}
+
+/* Filled check circle pops: overshoot, then settle. */
+.tracker-check-pop {
+  transform-origin: center;
+  animation: tracker-pop 420ms var(--ease-out-expo) both;
+}
+
+/* Brand fill draws down the fixed grey track (trim path). */
+.tracker-draw {
+  transform-origin: top;
+  animation: tracker-draw 520ms var(--ease-in-out-smooth) both;
+}
+
+.tracker-label-on {
+  animation: tracker-label 300ms ease-out both;
+}
+
+.tracker-copy-in {
+  animation: tracker-fade-in 300ms ease-out both;
+}
+
+.tracker-copy-out {
+  opacity: 0;
+  animation: tracker-fade-out 150ms ease-out both;
+}
+
+@keyframes tracker-grow {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes tracker-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  70%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes tracker-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes tracker-draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes tracker-label {
+  from {
+    color: var(--color-text-weaker);
+  }
+}
+
+@keyframes tracker-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tracker-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-loading {
-    animation: none;
+  .animate-loading,
+  [class*="tracker-"],
+  [class*="screen-"] {
+    animation: none !important;
   }
 }

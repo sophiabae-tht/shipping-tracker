@@ -1,4 +1,4 @@
-import { BackLink, Header } from "./Header";
+import { Header } from "./Header";
 import { PrototypeLabel } from "./Screen";
 
 /**
@@ -33,37 +33,23 @@ export function PageShell({
   );
 }
 
-/** maxWidth card (480px, fill/inverseWeak, radius-24). Holds the back arrow row on web+. */
-export function PageCard({
-  backHref,
-  onBack,
-  className = "",
-  children,
-}: {
-  backHref?: string;
-  onBack?: () => void;
-  className?: string;
-  children: React.ReactNode;
-}) {
+/** maxWidth card (480px, fill/inverseWeak, radius-24). */
+export function PageCard({ className = "", children }: { className?: string; children: React.ReactNode }) {
   return (
     <div
       className={`flex flex-1 flex-col web:w-full web:max-w-[480px] web:flex-none split:w-[480px] web:rounded-24 web:bg-fill-inverse-weak web:px-24 web:pt-8 web:pb-40 ${className}`}
     >
-      {(backHref || onBack) && (
-        // progressBarFrame without the progress bar: the shipping flow has no steps.
-        <div className="hidden h-48 items-center gap-16 px-16 pt-24 web:flex">
-          <BackLink backHref={backHref} onBack={onBack} />
-        </div>
-      )}
       {children}
     </div>
   );
 }
 
 /** Side maxWidth card (352px, fill/inverseWeaker, radius 24) used next to the main card on desktop. */
-export function SideCard({ children }: { children: React.ReactNode }) {
+export function SideCard({ className = "", children }: { className?: string; children: React.ReactNode }) {
   return (
-    <aside className="web:w-full web:max-w-[480px] web:rounded-24 web:bg-fill-inverse-weaker web:px-24 web:pt-24 web:pb-40 split:w-[352px] split:max-w-none">
+    <aside
+      className={`web:w-full web:max-w-[480px] web:rounded-24 web:bg-fill-inverse-weaker web:px-24 web:pt-24 web:pb-40 split:w-[352px] split:max-w-none ${className}`}
+    >
       {children}
     </aside>
   );

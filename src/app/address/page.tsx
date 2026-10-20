@@ -6,7 +6,7 @@ import { Button } from "@/components/Button";
 import { ErrorBanner, HavingTrouble, Modal } from "@/components/Feedback";
 import { Input, Select } from "@/components/Field";
 import { PageCard, PageShell } from "@/components/PageShell";
-import { BodyCopy, FullScreenMessage, PageHeading, StickyFooter } from "@/components/Screen";
+import { BodyCopy, FullScreenMessage, PageHeading, SCREEN_EXIT_MS, StickyFooter, loadingCardMotion } from "@/components/Screen";
 import {
   MOCK_DELAY_MS,
   US_STATES,
@@ -85,6 +85,7 @@ function AddressEdit() {
   const [saveFailed, setSaveFailed] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => () => clearTimeout(timer.current), []);
@@ -124,23 +125,30 @@ function AddressEdit() {
     setConfirming(false);
     setSaveFailed(false);
     setSaving(true);
+    // Prototype hook: an address containing "ERROR" simulates a backend failure.
+    const fails = /error/i.test(address.line1);
+    const next = href("/status", { m: member.key, updated: "1" });
+    if (!fails) router.prefetch(next);
     timer.current = setTimeout(() => {
-      // Prototype hook: an address containing "ERROR" simulates a backend failure.
-      if (/error/i.test(address.line1)) {
-        setSaving(false);
-        setSaveFailed(true);
-        window.scrollTo({ top: 0 });
-        return;
-      }
-      setAddress(member.key, { ...address, line1: address.line1.trim(), line2: address.line2.trim() });
-      router.push(href("/status", { m: member.key, updated: "1" }));
+      setLeaving(true);
+      timer.current = setTimeout(() => {
+        if (fails) {
+          setLeaving(false);
+          setSaving(false);
+          setSaveFailed(true);
+          window.scrollTo({ top: 0 });
+          return;
+        }
+        setAddress(member.key, { ...address, line1: address.line1.trim(), line2: address.line2.trim() });
+        router.push(next);
+      }, SCREEN_EXIT_MS);
     }, MOCK_DELAY_MS);
   };
 
   if (saving) {
     return (
       <PageShell backHref={statusHref}>
-        <PageCard>
+        <PageCard className={loadingCardMotion(leaving)}>
           <FullScreenMessage title="Updating your address..." body="This will only take a moment." />
         </PageCard>
       </PageShell>
@@ -153,7 +161,7 @@ function AddressEdit() {
   return (
     <>
       <PageShell backHref={statusHref}>
-        <PageCard backHref={statusHref}>
+        <PageCard>
           <PageHeading title="Update your shipping address" topSpacer>
             <BodyCopy>We’ll send your phone to this address.</BodyCopy>
             <BodyCopy>Use a residential (home) address - no PO Boxes or business addresses.</BodyCopy>

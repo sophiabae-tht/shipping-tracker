@@ -37,6 +37,8 @@ The **Controls** pill (bottom-right) switches mode and jumps to any member's sta
 ## Mock members
 
 Match on last name + member ID + date of birth. Anything else shows the not-found error.
+The lookup page lists these as **Sample members** under the form: tap one to prefill the lookup, then press
+**Next** to continue to the birthday confirmation. A "Jane Doe" sample shows the not-found error.
 
 | Last name | Member ID | DOB | Status |
 |---|---|---|---|

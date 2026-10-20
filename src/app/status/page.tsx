@@ -200,7 +200,7 @@ function StatusPage() {
     <>
       {/* Enrollment desktop04 layout: main card (480) + side card (352) on desktop; stacked on tablet. */}
       <PageShell backHref={href("/lookup")}>
-        <PageCard backHref={href("/lookup")} className="flex-none">
+        <PageCard className="screen-enter flex-none">
           <PageHeading title={copy.title} size="h3" topSpacer="md">
             {copy.sublineStyle === "h4" ? (
               <p className="type-heading4-bold px-16 pt-12 text-text-weak">{copy.subline}</p>
@@ -213,7 +213,7 @@ function StatusPage() {
           <OrderTracker status={member.status} showAddress={canChange} addressLines={addressLines} onChangeAddress={goChange} />
         </PageCard>
 
-        <SideCard>
+        <SideCard className="screen-enter screen-enter-late">
           {/* The card edge replaces the first divider on tablet and desktop. */}
           <div className="px-16 pt-16 web:[&>div]:border-t-0">
             <Accordion title="Order details" open={detailsOpen} onToggle={() => setDetailsOpen((v) => !v)}>
