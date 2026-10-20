@@ -170,6 +170,8 @@ function OrderDetails() {
   );
 }
 
+const DETAILS_KEY = "status-details-open";
+
 function StatusPage() {
   const params = useSearchParams();
   const router = useRouter();
@@ -178,8 +180,17 @@ function StatusPage() {
   const { addressFor } = useAddressStore();
   const member = memberByKey(params.get("m"));
   const justUpdated = params.get("updated") === "1";
-  const [detailsOpen, setDetailsOpen] = useState(justUpdated);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState(justUpdated);
+
+  // Coming back from Change address, Order details is left as the member had it before they went.
+  useEffect(() => {
+    try {
+      const key = `${DETAILS_KEY}:${params.get("m")}`;
+      if (sessionStorage.getItem(key) === "1") setDetailsOpen(true);
+      sessionStorage.removeItem(key);
+    } catch {}
+  }, [params]);
 
   // No member in the URL: send them to look up their order instead of showing an empty state.
   useEffect(() => {
@@ -194,7 +205,12 @@ function StatusPage() {
   const name = `${member.firstName} ${member.lastName}`;
   const addressLines = [name, ...formatAddressLines(address)];
   const hasTracking = member.status === "shipped" || member.status === "outForDelivery" || member.status === "delivered";
-  const goChange = () => router.push(href("/address", { m: member.key }));
+  const goChange = () => {
+    try {
+      sessionStorage.setItem(`${DETAILS_KEY}:${member.key}`, detailsOpen ? "1" : "0");
+    } catch {}
+    router.push(href("/address", { m: member.key }));
+  };
 
   return (
     <>
