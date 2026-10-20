@@ -168,12 +168,6 @@ body {
   animation: tracker-pulse 1800ms var(--ease-out-expo) infinite both;
 }
 
-/* Logo + halo leave as the check pops in. */
-.tracker-leave {
-  opacity: 0;
-  animation: tracker-fade-out 180ms ease-out both;
-}
-
 /* Filled check circle pops: overshoot, then settle. */
 .tracker-check-pop {
   transform-origin: center;
@@ -192,11 +186,6 @@ body {
 
 .tracker-copy-in {
   animation: tracker-fade-in 300ms ease-out both;
-}
-
-.tracker-copy-out {
-  opacity: 0;
-  animation: tracker-fade-out 150ms ease-out both;
 }
 
 @keyframes tracker-grow {
