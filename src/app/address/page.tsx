@@ -163,7 +163,7 @@ function AddressEdit() {
   return (
     <>
       <PageShell backHref={statusHref}>
-        <PageCard>
+        <PageCard backHref={statusHref}>
           <PageHeading title="Update your shipping address" topSpacer>
             <BodyCopy>We’ll send your phone to this address.</BodyCopy>
             <BodyCopy>Use a residential (home) address - no PO Boxes or business addresses.</BodyCopy>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { SUPPORT_PHONE_TEL } from "@/lib/data";
 
-function BackLink({ backHref, onBack }: { backHref?: string; onBack?: () => void }) {
+export function BackLink({ backHref, onBack }: { backHref?: string; onBack?: () => void }) {
   const arrow = <img src="/figma/arrow-left.svg" alt="" width={24} height={24} />;
   if (onBack) {
     return (

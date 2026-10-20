@@ -1,4 +1,4 @@
-import { Header } from "./Header";
+import { BackLink, Header } from "./Header";
 import { PrototypeLabel } from "./Screen";
 
 /**
@@ -29,12 +29,29 @@ export function PageShell({
   );
 }
 
-/** maxWidth card (432px to match the live enrollment card, fill/inverseWeak, radius-24). */
-export function PageCard({ className = "", children }: { className?: string; children: React.ReactNode }) {
+/**
+ * maxWidth card (432px to match the live enrollment card, fill/inverseWeak, radius-24).
+ * `backHref`: a back arrow row at the top of the card on web+ (phones have it in the topAppBar).
+ */
+export function PageCard({
+  backHref,
+  className = "",
+  children,
+}: {
+  backHref?: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
   return (
     <div
       className={`flex flex-1 flex-col web:w-full web:max-w-[432px] web:flex-none split:w-[432px] web:rounded-24 web:bg-fill-inverse-weak web:px-24 web:pt-8 web:pb-40 ${className}`}
     >
+      {backHref && (
+        // progressBarFrame without the progress bar: the shipping flow has no steps.
+        <div className="hidden h-48 items-center px-16 pt-24 web:flex">
+          <BackLink backHref={backHref} />
+        </div>
+      )}
       {children}
     </div>
   );
