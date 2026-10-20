@@ -27,7 +27,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         <AddressStoreProvider>
-          <div className="relative flex min-h-dvh w-full flex-col bg-background-base">
+          <div className="relative flex min-h-dvh w-full flex-col">
             {children}
           </div>
           <Suspense>

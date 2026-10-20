@@ -13,21 +13,25 @@
   --breakpoint-split: 53.5rem;
 }
 
-html,
-body {
-  background: var(--color-background-sunken);
+/*
+ * Page background, painted on the whole canvas so it also sits behind dropdowns that extend past the content
+ * (e.g. the State list), with no hard edge. Phones: background/base.
+ * From 481px: enroll.thrivemobile.com's gradient (soft green glow top-right, blue glow bottom-left, over a
+ * diagonal near-white base; the two base stops are hardcoded on the live site too). It's fixed to the
+ * viewport so it never runs out or tiles while scrolling.
+ */
+html {
+  background: var(--color-background-base);
 }
 
-/*
- * Page background from enroll.thrivemobile.com (applied above 480px, like the live site): a soft green
- * glow top-right, a blue glow bottom-left, over a diagonal near-white base. The two base stops are
- * hardcoded on the live site too (they sit between background/base and background/sunken).
- */
-@utility bg-enroll-page {
-  background:
-    radial-gradient(circle at 85% 15%, color-mix(in srgb, var(--color-fill-accent-strong) 5%, transparent) 0%, transparent 60%),
-    radial-gradient(circle at 15% 85%, color-mix(in srgb, var(--color-fill-brand-strong) 25%, transparent) 0%, transparent 60%),
-    linear-gradient(135deg, #f8f9fb 0%, #f1f3f6 100%);
+@media (min-width: 30.0625rem) {
+  html {
+    background:
+      radial-gradient(circle at 85% 15%, color-mix(in srgb, var(--color-fill-accent-strong) 5%, transparent) 0%, transparent 60%),
+      radial-gradient(circle at 15% 85%, color-mix(in srgb, var(--color-fill-brand-strong) 25%, transparent) 0%, transparent 60%),
+      linear-gradient(135deg, #f8f9fb 0%, #f1f3f6 100%) #f1f3f6;
+    background-attachment: fixed;
+  }
 }
 
 /* Tailwind v4 resets buttons to the default cursor; every enabled button here is clickable. */

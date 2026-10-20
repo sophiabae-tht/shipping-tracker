@@ -60,7 +60,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   const raised = focused || value.length > 0;
   return (
     <div className={`w-full px-16 pt-16 ${className}`}>
-      <div className={boxClasses(focused, error)}>
+      {/* A click anywhere in the box (icon included, e.g. the Address search icon) puts the cursor in the field.
+          Icon buttons such as the date-picker toggle keep their own action. */}
+      <div
+        className={`${boxClasses(focused, error)} cursor-text`}
+        onMouseDown={(e) => {
+          const target = e.target as HTMLElement;
+          if (target.closest("button") || target.tagName === "INPUT") return;
+          e.preventDefault();
+          (e.currentTarget.querySelector("input") as HTMLInputElement | null)?.focus();
+        }}
+      >
         <FloatingLabel htmlFor={id} label={label} raised={raised} />
         <input
           ref={ref}

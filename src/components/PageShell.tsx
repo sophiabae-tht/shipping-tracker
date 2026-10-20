@@ -4,7 +4,7 @@ import { PrototypeLabel } from "./Screen";
 /**
  * Responsive page frame.
  * Mobile: the 360px Shipping frames (topAppBar, full-bleed content, sticky footer buttons).
- * web+: the Enrollment desktop layout: the live enrollment site's gradient page background, webHeaderDesktop,
+ * web+: the Enrollment desktop layout (the live site's gradient page background is on <html>), webHeaderDesktop,
  * and centered cards (main 432px like enroll.thrivemobile.com; on split an optional 352px side card, 24px apart).
  */
 export function PageShell({
@@ -17,7 +17,7 @@ export function PageShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative isolate flex flex-1 flex-col web:bg-enroll-page">
+    <div className="relative isolate flex flex-1 flex-col">
       <Header backHref={backHref} onBack={onBack} />
       <main className="flex flex-1 flex-col web:flex-none web:items-center web:gap-24 web:px-24 web:pt-12 web:pb-40 split:flex-row split:items-start split:justify-center">
         {children}
