@@ -267,7 +267,7 @@ function StatusPage() {
               Not your contact info? Call us at <CallLink />
             </p>
           </section>
-          <div className={`web:hidden ${toastOpen ? "h-[224px]" : "h-[40px]"}`} />
+          <div className={`web:hidden ${toastOpen ? "h-[96px]" : "h-[40px]"}`} />
           <div className="web:hidden">
           <PrototypeLabel />
           </div>
@@ -275,9 +275,7 @@ function StatusPage() {
       </PageShell>
 
       {toastOpen && (
-        <Toast title="Your address is updated" onClose={() => setToastOpen(false)}>
-          We’ll send a confirmation by text and email.
-        </Toast>
+        <Toast title="Your address is updated" onClose={() => setToastOpen(false)} />
       )}
     </>
   );
