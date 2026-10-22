@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/Button";
-import { ErrorBanner, HavingTrouble, Modal } from "@/components/Feedback";
+import { CallLink, ErrorBanner, HavingTrouble, HelpScreen, Modal } from "@/components/Feedback";
 import { Input, Select } from "@/components/Field";
 import { PageCard, PageShell } from "@/components/PageShell";
 import { BodyCopy, FullScreenMessage, PageHeading, SCREEN_EXIT_MS, StickyFooter, loadingCardMotion } from "@/components/Screen";
@@ -85,6 +85,7 @@ function AddressEdit() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [zipError, setZipError] = useState<string>();
   const [saveFailed, setSaveFailed] = useState(false);
+  const [tooLate, setTooLate] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
   const [leaving, setLeaving] = useState(false);
@@ -93,7 +94,7 @@ function AddressEdit() {
   useEffect(() => () => clearTimeout(timer.current), []);
 
   // Address changes only exist in FULL mode, and only before the order is prepared.
-  const allowed = !!member && mode === "full" && member.status === "ordered";
+  const allowed = !!member && mode === "full" && member.status === "ordered" && !member.processing;
   useEffect(() => {
     if (!allowed) router.replace(member ? statusHref : href("/lookup"));
   }, [allowed, member, statusHref, href, router]);
@@ -127,13 +128,22 @@ function AddressEdit() {
     setConfirming(false);
     setSaveFailed(false);
     setSaving(true);
-    // Prototype hook: an address containing "ERROR" simulates a backend failure.
+    // Prototype hooks: an address containing "ERROR" simulates a backend failure; "LATE" simulates the order
+    // starting to be prepared before the change could be saved.
     const fails = /error/i.test(address.line1);
+    const late = /late/i.test(address.line1);
     const next = href("/status", { m: member.key, updated: "1" });
-    if (!fails) router.prefetch(next);
+    if (!fails && !late) router.prefetch(next);
     timer.current = setTimeout(() => {
       setLeaving(true);
       timer.current = setTimeout(() => {
+        if (late) {
+          setLeaving(false);
+          setSaving(false);
+          setTooLate(true);
+          window.scrollTo({ top: 0 });
+          return;
+        }
         if (fails) {
           setLeaving(false);
           setSaving(false);
@@ -146,6 +156,19 @@ function AddressEdit() {
       }, SCREEN_EXIT_MS);
     }, MOCK_DELAY_MS);
   };
+
+  if (tooLate) {
+    return (
+      <PageShell backHref={statusHref}>
+        <PageCard className="screen-enter">
+          <HelpScreen icon="/figma/warning-error.svg" tone="error" title="We couldn’t update your address" topSpacer>
+            Your phone started being prepared before we could save the change. To make sure it gets updated, please call
+            our Thrive Assistants.
+          </HelpScreen>
+        </PageCard>
+      </PageShell>
+    );
+  }
 
   if (saving) {
     return (
@@ -171,7 +194,8 @@ function AddressEdit() {
 
           {saveFailed && (
             <ErrorBanner title="Something went wrong">
-              Your address wasn’t updated. Please call Thrive Support for assistance or try again.
+              Your address wasn’t updated. Please call us at <CallLink /> for
+              help or try again.
             </ErrorBanner>
           )}
 
@@ -228,7 +252,7 @@ function AddressEdit() {
             <button type="submit" hidden aria-hidden tabIndex={-1} />
           </form>
 
-          {(zipError || saveFailed) && <HavingTrouble />}
+          {zipError && <HavingTrouble />}
 
           <div className="h-24 web:hidden" />
           <StickyFooter>

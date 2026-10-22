@@ -29,7 +29,7 @@ const EMPTY: Form = { firstName: "", lastName: "", plan: "", memberId: "", dob: 
 function validate(form: Form): Errors {
   const errors: Errors = {};
   if (!form.plan) errors.plan = "Select your health plan.";
-  if (!/^[A-Za-z0-9]{6,12}$/.test(form.memberId.trim())) errors.memberId = "Enter the member ID on your ID card.";
+  if (!/^[A-Za-z0-9]{6,12}$/.test(form.memberId.trim())) errors.memberId = "Enter the member ID on your plan card.";
   if (!isValidDob(form.dob)) errors.dob = "Enter your date of birth (mm/dd/yyyy).";
   return errors;
 }

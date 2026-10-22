@@ -1,4 +1,4 @@
-import { STATUS_LABEL, type Status } from "@/lib/data";
+import { STATUS_LABEL, SUPPORT_PHONE_TEL, type Status } from "@/lib/data";
 
 const STEPS: Status[] = ["ordered", "preparingToShip", "shipped", "outForDelivery", "delivered"];
 
@@ -97,9 +97,16 @@ function AnimatedSymbol({ done, arrive, arriveDur }: { done: boolean; arrive: nu
   );
 }
 
+// changeAddressButton (secondary, small).
+const ADDRESS_ACTION =
+  "type-tiny-bold block w-full rounded-12 border border-stroke-brand-strong px-12 py-[6px] text-center text-text-brand hover:bg-fill-weaker web:max-w-[290px]";
+
 type Props = {
   status: Status;
-  /** Ordered step only: shows "Shipping to", the address and a Change address button. */
+  /**
+   * Ordered step only: shows "Shipping to" and the address, with a Change address button when the address
+   * can be changed online (Phase 2) or a Call Thrive button when it can't (Phase 1).
+   */
   showAddress?: boolean;
   addressLines?: string[];
   onChangeAddress?: () => void;
@@ -166,13 +173,15 @@ export function OrderTracker({ status, showAddress = false, addressLines = [], o
                       ))}
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={onChangeAddress}
-                    className="type-tiny-bold w-full rounded-12 web:max-w-[290px] border border-stroke-brand-strong px-12 py-[6px] text-text-brand hover:bg-fill-weaker"
-                  >
-                    Change address
-                  </button>
+                  {onChangeAddress ? (
+                    <button type="button" onClick={onChangeAddress} className={ADDRESS_ACTION}>
+                      Change address
+                    </button>
+                  ) : (
+                    <a href={SUPPORT_PHONE_TEL} className={ADDRESS_ACTION}>
+                      Call Thrive
+                    </a>
+                  )}
                 </div>
               )}
             </div>

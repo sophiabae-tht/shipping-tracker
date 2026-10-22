@@ -13,20 +13,22 @@ type Sample = {
 };
 
 const SCENARIOS: Record<string, string> = {
-  smith: "Happy path. Order placed; in Full mode, change the address (try a ZIP that doesn't match, or 'ERROR' to simulate a failed save).",
+  smith:
+    "Happy path. Order placed; in Full mode, change the address (try a ZIP that doesn't match, 'ERROR' in the address to simulate a failed save, or 'LATE' for an order that started preparing first).",
   lopez: "AEP enrollee: plan starts Jan 1, 2027, and the phone ships closer to that date. Address editable in Full mode.",
   nguyen: "Preparing to ship: the address can no longer be changed online, so members are asked to call.",
   johnson: "Shipped: shows the USPS carrier, tracking number and expected delivery date.",
   patel: "Out for delivery: arriving today by 5 PM ET.",
   brown: "Delivered on Oct 30, with a prompt to call if the phone didn't arrive.",
+  garcia: "Still processing: the member is found, but their order details aren't available yet.",
 };
 
 function fromMember(m: Member, mode: Mode): Sample {
   return {
     name: `${m.firstName} ${m.lastName}`,
     scenario: SCENARIOS[m.key],
-    meta: `${m.memberId} · ${m.aep ? "AEP · " : ""}${STATUS_LABEL[m.status]}`,
-    badge: mode === "full" && m.status === "ordered" ? "Editable" : "Locked",
+    meta: `${m.memberId} · ${m.aep ? "AEP · " : ""}${m.processing ? "Still processing" : STATUS_LABEL[m.status]}`,
+    badge: mode === "full" && m.status === "ordered" && !m.processing ? "Editable" : "Locked",
     pick: { firstName: m.firstName, lastName: m.lastName, plan: "Humana", memberId: m.memberId, dob: m.dob },
   };
 }

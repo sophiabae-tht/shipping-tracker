@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { Accordion } from "@/components/Accordion";
-import { CallLink, Toast } from "@/components/Feedback";
+import { CallLink, HelpScreen, Toast } from "@/components/Feedback";
 import { PageCard, PageShell, SideCard } from "@/components/PageShell";
 import { OrderTracker } from "@/components/OrderTracker";
 import { PageHeading, PrototypeLabel } from "@/components/Screen";
@@ -198,6 +198,18 @@ function StatusPage() {
   }, [member, router, href]);
   if (!member) return null;
 
+  if (member.processing) {
+    return (
+      <PageShell backHref={href("/lookup")}>
+        <PageCard className="screen-enter">
+          <HelpScreen icon="/figma/info-large.svg" title="We’re still processing your order">
+            We found your account, but your order details aren&apos;t available yet. Please check back in a day or two.
+          </HelpScreen>
+        </PageCard>
+      </PageShell>
+    );
+  }
+
   const fullMode = mode === "full";
   const canChange = fullMode && member.status === "ordered";
   const copy = copyFor(member, fullMode);
@@ -226,7 +238,12 @@ function StatusPage() {
             {hasTracking && <TrackingInfo />}
           </PageHeading>
 
-          <OrderTracker status={member.status} showAddress={canChange} addressLines={addressLines} onChangeAddress={goChange} />
+          <OrderTracker
+            status={member.status}
+            showAddress={member.status === "ordered"}
+            addressLines={addressLines}
+            onChangeAddress={canChange ? goChange : undefined}
+          />
         </PageCard>
 
         <SideCard className="screen-enter screen-enter-late">

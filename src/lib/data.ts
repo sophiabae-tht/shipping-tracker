@@ -2,6 +2,7 @@
 
 export const SUPPORT_PHONE_DISPLAY = "1-888-445-1069";
 export const SUPPORT_PHONE_TEL = "tel:+18884451069";
+export const SUPPORT_HOURS = "Monday-Friday 9:00AM-7:00PM EST";
 
 export const TRACKING_NUMBER = "9400 1000 0000 0000 0000";
 export const TRACKING_URL = `https://tools.usps.com/go/TrackConfirmAction?tLabels=${TRACKING_NUMBER.replace(/\s/g, "")}`;
@@ -25,6 +26,8 @@ export type Member = {
   dob: string;
   status: Status;
   aep: boolean;
+  /** Identity checks out, but there are no order details yet (status/still-processing). */
+  processing?: boolean;
 };
 
 export const DEFAULT_ADDRESS: Address = {
@@ -47,6 +50,7 @@ export const MEMBERS: Member[] = [
   { key: "johnson", firstName: "Jane", lastName: "Johnson", memberId: "H10000004", dob: "01/15/1952", status: "shipped", aep: false },
   { key: "patel", firstName: "Jane", lastName: "Patel", memberId: "H10000005", dob: "11/30/1949", status: "outForDelivery", aep: false },
   { key: "brown", firstName: "Jane", lastName: "Brown", memberId: "H10000006", dob: "07/08/1955", status: "delivered", aep: false },
+  { key: "garcia", firstName: "Jane", lastName: "Garcia", memberId: "H10000007", dob: "02/20/1951", status: "ordered", aep: false, processing: true },
 ];
 
 export const STATUS_LABEL: Record<Status, string> = {

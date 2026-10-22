@@ -1,11 +1,21 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL } from "@/lib/data";
+import { Button } from "./Button";
+import { StickyFooter } from "./Screen";
+import { SUPPORT_HOURS, SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL } from "@/lib/data";
 
-export function CallLink({ children = SUPPORT_PHONE_DISPLAY, bold = false }: { children?: React.ReactNode; bold?: boolean }) {
+export function CallLink({
+  children = SUPPORT_PHONE_DISPLAY,
+  href = SUPPORT_PHONE_TEL,
+  bold = false,
+}: {
+  children?: React.ReactNode;
+  href?: string;
+  bold?: boolean;
+}) {
   return (
-    <a href={SUPPORT_PHONE_TEL} className={`whitespace-nowrap text-text-brand underline ${bold ? "font-strong" : ""}`}>
+    <a href={href} className={`whitespace-nowrap text-text-brand underline ${bold ? "font-strong" : ""}`}>
       {children}
     </a>
   );
@@ -52,10 +62,10 @@ export function InfoCard({ icon, title, children }: { icon: string; title: strin
   );
 }
 
-/** iconContainer (fill/weaker). */
-function IconContainer({ icon }: { icon: string }) {
+/** iconContainer: neutral (fill/weaker) or error (fill/errorWeak). */
+function IconContainer({ icon, tone = "neutral" }: { icon: string; tone?: "neutral" | "error" }) {
   return (
-    <div className="flex items-center rounded-full bg-fill-weaker p-12">
+    <div className={`flex items-center rounded-full p-12 ${tone === "error" ? "bg-fill-error-weak" : "bg-fill-weaker"}`}>
       <img src={icon} alt="" width={24} height={24} />
     </div>
   );
@@ -159,5 +169,55 @@ export function Toast({ title, onClose }: { title: string; onClose: () => void }
         </button>
       </div>
     </div>
+  );
+}
+
+/**
+ * Dead-end screen with a way out by phone (status/still-processing, address/too-late-preparing): IconHeader,
+ * Heading 4 title and body, the "Thrive Support" block (We're here to help + number and hours), and a
+ * Call Thrive button in the footer.
+ */
+export function HelpScreen({
+  icon,
+  tone,
+  title,
+  topSpacer = false,
+  children,
+}: {
+  icon: string;
+  tone?: "neutral" | "error";
+  title: string;
+  /** address/too-late-preparing starts with a 16px spacer above the icon; status/still-processing doesn't. */
+  topSpacer?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <div className="flex flex-col">
+        <div className={topSpacer ? "h-16" : "hidden h-16 web:block"} />
+        <div className="flex px-16 pt-16">
+          <IconContainer icon={icon} tone={tone} />
+        </div>
+        <h1 className="type-heading4-bold px-16 pt-16 text-text-strong">{title}</h1>
+        <p className="type-small-regular px-16 pt-12 text-text-weak">{children}</p>
+        {topSpacer && <div className="h-8" />}
+      </div>
+      <section aria-labelledby="help-heading" className="flex flex-col">
+        <h2 id="help-heading" className="type-heading4-bold px-16 pt-16 text-text-strong">
+          We’re here to help
+        </h2>
+        <p className="type-small-regular px-16 pt-8 text-text-weak">
+          Call us at{" "}
+          <a href={SUPPORT_PHONE_TEL} className="whitespace-nowrap underline">
+            {SUPPORT_PHONE_DISPLAY}.
+          </a>{" "}
+          {SUPPORT_HOURS}.
+        </p>
+      </section>
+      <div className="h-24 web:hidden" />
+      <StickyFooter>
+        <Button href={SUPPORT_PHONE_TEL}>Call Thrive</Button>
+      </StickyFooter>
+    </>
   );
 }
