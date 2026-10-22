@@ -21,11 +21,11 @@ export function CallLink({
   );
 }
 
-/** questionAndLink: "Having trouble? Call us" */
+/** questionAndLink: "Having trouble? Call us at 1-888-445-1069" (only the number is a link). */
 export function HavingTrouble() {
   return (
     <p className="type-small-regular px-16 pt-24 text-text-weak">
-      Having trouble? <CallLink bold>Call us</CallLink>
+      Having trouble? Call us at <CallLink />
     </p>
   );
 }

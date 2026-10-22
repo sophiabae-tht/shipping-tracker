@@ -4,13 +4,19 @@ import { forwardRef, useEffect, useId, useRef, useState } from "react";
 
 type MessageProps = { hint?: string; error?: string; id: string };
 
-/** Hint (Info icon) or error (WarningCircle icon) line under a field. */
+/** Hint (plain text, Figma inputTextField hintFrame) or error (WarningCircle icon) line under a field. */
 function FieldMessage({ hint, error, id }: MessageProps) {
   if (!hint && !error) return null;
+  if (!error)
+    return (
+      <p id={id} className="type-tiny-regular px-16 pt-8 text-text-weak">
+        {hint}
+      </p>
+    );
   return (
     <div id={id} className="flex items-center gap-8 px-16 pt-8">
-      <img src={error ? "/figma/warning-small.svg" : "/figma/info.svg"} alt="" width={16} height={16} className="shrink-0" />
-      <p className={`type-tiny-regular flex-1 ${error ? "text-text-error" : "text-text-weak"}`}>{error ?? hint}</p>
+      <img src="/figma/warning-small.svg" alt="" width={16} height={16} className="shrink-0" />
+      <p className="type-tiny-regular flex-1 text-text-error">{error}</p>
     </div>
   );
 }

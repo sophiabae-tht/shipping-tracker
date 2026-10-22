@@ -11,7 +11,6 @@ import { DatePicker } from "@/components/DatePicker";
 import { BodyCopy, FullScreenMessage, PageHeading, SCREEN_EXIT_MS, StickyFooter, loadingCardMotion } from "@/components/Screen";
 import {
   MOCK_DELAY_MS,
-  SUPPORT_PHONE_TEL,
   findMember,
   formatLongDate,
   isValidDob,
@@ -146,7 +145,6 @@ function Lookup() {
                 autoComplete="family-name"
                 value={form.lastName}
                 onChange={(e) => update("lastName", e.target.value)}
-                hint="The legal name you use on official documents, like your Social Security Card or State ID."
               />
               <Select
                 label="Health plan"
@@ -194,24 +192,16 @@ function Lookup() {
               <button type="submit" hidden aria-hidden tabIndex={-1} />
             </form>
 
-            {notFound ? (
-              <HavingTrouble />
-            ) : (
-              <InfoCard icon="/figma/shield-check.svg" title="Why do we need this?">
-                We use it to confirm eligibility with your health plan. Your data is encrypted and secure.
-              </InfoCard>
-            )}
+            <InfoCard icon="/figma/shield-check.svg" title="Why do we need this?">
+              We use it to confirm eligibility with your health plan. Your data is encrypted and secure.
+            </InfoCard>
+            {notFound && <HavingTrouble />}
 
             <div className="h-24 web:hidden" />
             <StickyFooter>
               <Button onClick={onNext} disabled={!complete}>
                 Next
               </Button>
-              {complete && (
-                <Button variant="secondary" icon="/figma/headset.svg" href={SUPPORT_PHONE_TEL}>
-                  I can&apos;t find my member ID
-                </Button>
-              )}
             </StickyFooter>
           </PageCard>
           <SampleMembers mode={mode} onPick={onPickSample} />
